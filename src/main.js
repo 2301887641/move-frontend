@@ -6,12 +6,17 @@ import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'    // 使用 CSS
 import Axios from 'axios'
+// 本地配置变量
 import Config from './config/base.js'
 Vue.config.productionTip = false
 Vue.use(iView)
+Axios.defaults.baseURL = Config.login
+Axios.defaults.timeout = 1000 * 15
+Axios.defaults.headers['Content-Type'] = 'application/json'
+Axios.defaults.withCredentials = true
 
-window.axios = Axios
-window.Config = Config
+Vue.prototype.$http = Axios
+Vue.prototype.$config = Config
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

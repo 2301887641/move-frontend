@@ -18,17 +18,17 @@
           <Form-item prop="captcha">
             <Row>
               <Col span="12">
-               <Input type="text" v-model="formInline.captcha" placeholder="请输入验证码">
+               <Input type="text" v-model="formInline.captcha" placeholder="请输入验证码" @on-change="blur">
                 <Icon type="eye" slot="prepend"></Icon>
                </Input>
               </Col>
-              <Col span="8" justify="end" push="4">
-              <img src="http://www.api.com/api/captcha" alt="验证码" width="100" height="32">
+              <Col span="10" justify="end" push="2">
+              <img class="login-captcha" :src="imageSrc" alt="验证码" width="120" height="32" @click="refreshCaptcha()">
               </Col>
             </Row>
           </Form-item>
           <Form-item>
-            <Button type="primary" long :loading="load">登录</Button>
+            <Button type="primary" long :loading="load" @click="login">登录</Button>
           </Form-item>
         </Form>
       </div>
@@ -40,13 +40,20 @@
   export default{
       data () {
           return {
+            // 加载状态
             load: false,
-            imageSrc: 111,
+            // 验证码地址
+            imageSrc: '',
+            // 验证码验证后才可以提交表单
+            canSubmit: false,
+            // 表单对象
             formInline: {
+            // 用户名 密码 验证码
                   name: '',
                   password: '',
                   captcha: ''
               },
+            // 表单验证
             ruleInline: {
                 name: [
                   {required: true, message: '请填写用户名'}
@@ -61,18 +68,64 @@
           }
       },
       created() {
-          this.getCaptcha()
+        //  验证码地址
+        this.imageSrc = this.$config.web + 'captcha'
       },
       methods: {
-        getCaptcha() {
+        //  刷新验证码
+        refreshCaptcha() {
+          this.imageSrc = this.imageSrc + '?id=' + Math.random()
+        },
+        // 验证码框输入内容时触发
+        blur() {
+          if (this.formInline.captcha.length === 4) {
+             let _this = this
+             this.$http.get(this.$config.web + 'checkCaptcha/' + this.formInline.captcha).then((response) => {
+                  if (response.status === 200) {
+                    if (response.data.status === 'success') {
+                       _this.canSubmit = true
+                    }
+                  } else {
+                    this.$Message.error('网络异常')
+                  }
+             })
+          }
+        },
+        // 登录操作
+        login() {
             let _this = this
-          window.axios.get('http://www.api.com/api/captcha').then(function(response) {
-              _this.imageSrc = response.data
+            if (!_this.canSubmit) {
+               this.$Message.error('验证码错误')
+               return false
+            }
+            this.$refs.formInline.validate((volid) => {
+                if (volid) {
+                  _this.load = true
+                  let data = {
+                    username: _this.formInline.name,
+                    password: _this.formInline.password,
+                    grant_type: this.$config.grant_type,
+                    client_id: this.$config.client_id,
+                    client_secret: this.$config.client_secret,
+                    scope: '*'
+                  }
+                  _this.$http.post(this.$config.login, data).then((response) => {
+                      _this.load = false
+                      if (response.status === 200) {
+                          // refresh_token
+                          console.log(response.data.access_token)
+                      } else if (response.status === 401) {
+                          _this.$Message.error('用户名或密码错误')
+                          _this.canSubmit = false
+                      }
+                  })
+                } else {
+                  _this.load = false
+                  return false
+                }
             })
         }
-
       }
-
   }
 
 </script>
@@ -83,14 +136,14 @@
      background-size:cover
     .login-wrapper
       width:350px
-      height:350px
+      height:450px
       position:absolute
       top:35%
       left:50%
       margin-left:-(@width/2)
       margin-top:-(@height/2)
       /*background:#fffcc*/
-      border:1px solid #000
+      border:2px solid #fff
       border-radius:5px
       padding:25px 15px
       .login-title
@@ -98,4 +151,6 @@
          padding:10px
       .login-form
          padding:10px
+         .login-captcha
+           cursor:pointer
 </style>

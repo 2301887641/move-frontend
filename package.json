@@ -13,6 +13,7 @@
   "dependencies": {
     "axios": "^0.16.2",
     "iview": "^2.0.0-rc.17",
+    "lockr": "^0.8.4",
     "vue": "^2.3.3",
     "vue-router": "^2.3.1",
     "vue-style-loader": "^3.0.1"
