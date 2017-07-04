@@ -113,7 +113,8 @@
                       _this.load = false
                       if (response.status === 200) {
                           // refresh_token
-                          console.log(response.data.access_token)
+                        _this.$lockr.set('access_token', response.data.access_token)
+                        window.router.replace('index')
                       } else if (response.status === 401) {
                           _this.$Message.error('用户名或密码错误')
                           _this.canSubmit = false
