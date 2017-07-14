@@ -1,145 +1,183 @@
 <template>
-  <div class="container">
-    <div class="top">
-
-      <Menu mode="horizontal" :theme="topTheme" active-name="1">
-        <div class="logo">
-          <img src="/static/image/logo.png">
-        </div>
-        <Menu-item name="1">
-          <Icon type="ios-paper"></Icon>
-          内容管理
-
-        </Menu-item>
-        <Menu-item name="2">
-          <Icon type="ios-people"></Icon>
-          用户管理
-
-        </Menu-item>
-        <Submenu name="3">
-          <template slot="title">
-            <Icon type="stats-bars"></Icon>
-            统计分析
-
-          </template>
-          <Menu-group title="使用">
-            <Menu-item name="3-1">新增和启动</Menu-item>
-            <Menu-item name="3-2">活跃分析</Menu-item>
-            <Menu-item name="3-3">时段分析</Menu-item>
-          </Menu-group>
-          <Menu-group title="留存">
-            <Menu-item name="3-4">用户留存</Menu-item>
-            <Menu-item name="3-5">流失用户</Menu-item>
-          </Menu-group>
-        </Submenu>
-        <Menu-item name="4">
-          <Icon type="settings"></Icon>
-          综合设置
-
-        </Menu-item>
-        <div class="user">
-          <span><Icon type="home"></Icon>&nbsp;&nbsp;首页</span>
-          <span><Icon type="ios-locked"></Icon>&nbsp;&nbsp;修改密码</span>
-          <span><Icon type="log-out"></Icon>&nbsp;&nbsp;退出</span>
-        </div>
-      </Menu>
+  <div>
+    <header id="header">
+      <div class="left">
+        <i class="fa fa-windows fa-3x" aria-hidden="true"></i>
+        <span class="text-logo">Admin</span><span class="text-slogan">管理后台</span>
+      </div>
+      <div class="center">
+        <span><i class="fa fa-arrow-circle-o-left fa-3x" aria-hidden="true"></i></span>
+      </div>
+      <div class="right">
+        <span class="right-message"><i class="fa fa-bell fa-2x" aria-hidden="true"></i><span class="notification">3</span></span>
+        <span class="right-user"><img src="/static/image/user.jpg" alt="">&nbsp;admin</span>
+        <span class="right-wrapper"><i class="fa fa-user-circle fa-3x" aria-hidden="true"></i><span class="notification">3</span></span>
+      </div>
+    </header>
+    <div id="left">
+        <ul class="nav">
+          <li class="nav-li"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span>
+                <ul class="nav-son-ul">
+                  <li class="nav-son-ul-li"><span class="nav-son-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span></li>
+                </ul>
+          </li>
+          <li class="nav-li"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span></li>
+        </ul>
     </div>
-    <div class="left">
-      <Menu :theme="theme">
-        <Submenu name="1">
-          <template slot="title">
-            <Icon type="ios-paper"></Icon>
-            内容管理
-
-          </template>
-          <Menu-item name="1-1">文章管理</Menu-item>
-          <Menu-item name="1-2">评论管理</Menu-item>
-          <Menu-item name="1-3">举报管理</Menu-item>
-        </Submenu>
-        <Submenu name="2">
-          <template slot="title">
-            <Icon type="ios-people"></Icon>
-            用户管理
-
-          </template>
-          <Menu-item name="2-1">新增用户</Menu-item>
-          <Menu-item name="2-2">活跃用户</Menu-item>
-        </Submenu>
-        <Submenu name="3">
-          <template slot="title">
-            <Icon type="stats-bars"></Icon>
-            统计分析
-
-          </template>
-          <Menu-group title="使用">
-            <Menu-item name="3-1">新增和启动</Menu-item>
-            <Menu-item name="3-2">活跃分析</Menu-item>
-            <Menu-item name="3-3">时段分析</Menu-item>
-          </Menu-group>
-          <Menu-group title="留存">
-            <Menu-item name="3-4">用户留存</Menu-item>
-            <Menu-item name="3-5">流失用户</Menu-item>
-          </Menu-group>
-        </Submenu>
-      </Menu>
+    <div id="right">
+        dfasd
     </div>
-
-
   </div>
+
 </template>
 
 <script type="text/ecmascript-6">
   export default {
     data() {
       return {
+        // 头部主题
         topTheme: 'primary',
-        theme: 'light'
+        // 左侧主题
+        theme: 'light',
+        // 用户名
+        user_name: ''
       }
     },
     created() {
-        let tokens = this.$lockr.get('access_token')
-        this.$http.get(this.$config.domain + 'user', {
-          headers: {
-            'Authorization': 'Bearer ' + tokens
-          }
-        }).then((response) => {
-            console.log(response)
-        })
+      this.user_name = this.$lockr.get('user_name')
     }
   }
 
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
- body
-  background:#fff
-  .container
-    height: 100%
-    .top
+  body
+    background: #fff
+    #header
       width: 100%
-      .logo
-        width: 240px
-        float: left
+      height: 60px
+      background-color:#75b9e6
+      display:flex
+      padding:0 30px
+      box-sizing:border-box
+      align-items:center
+      span.notification
+        background-color: #f68484
+        border-radius: 4px
+        font: bold 11px Arial
+        color: #ffffff
+        line-height: 20px
+        min-width: 20px
+        position: absolute
+        top: 6px
+        right: 10px
         text-align: center
-        img
-          height: 40px
-          vertical-align: middle
-      .user
-        float: right
-        margin-right: 20px
-        color: #fff
+        text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1)
+      .left
+        width: 250px
+        vertical-align:center
         span
-          display: inline-block
-          height: 100%
-          padding: 0 20px
-          cursor: pointer
-        :hover
-          background-color: #2b85e4
-          transition: all .2s ease-in-out
-    .left
-      display: inline-block
-      height: 100%
-      .ivu-menu
-        height: 100%
+          font-weight: bold
+          font-family: 'Droid Sans'
+          font-size: 25px
+        .text-logo
+          color: #124363
+          margin-left:15px
+        .text-slogan
+          color:#fff
+      .center
+         width:500px
+         color:#fff
+         height:100%
+         span
+           display:inline-block
+           width: 60px
+           height:60px
+           text-align:center
+         :hover
+            cursor:pointer
+            background:#4aa3de
+           i
+             line-height:60px
+      .right
+         width:300px
+         height:60px
+         display:flex
+         justify-content:flex-end
+         flex-grow:2
+         align-items:center
+         color:#fff
+         span.right-message
+         span.right-wrapper
+           width:70px
+           height:60px
+           text-align:center
+           position:relative
+         span.right-message:hover
+         span.right-wrapper:hover
+           cursor:pointer
+           background:#4aa3de
+         span.right-user
+           height:60px
+           color: #ffffff
+           width: 180px
+           position: relative
+           transition: all
+           transition-duration: 0.4s
+           overflow-x: hidden
+           outline: none
+           display:flex
+           align-items:center
+           justify-content:center
+           font-size:17px
+         img
+           border-radius:5px
+         span.right-user:hover
+           cursor:pointer
+           background:#4aa3de
+         i
+           line-height:60px
+    #left
+      width: 15%
+      height:auto
+      background:#f3f5f6
+      position: absolute
+      left: 0
+      bottom: 0
+      top: 60px
+      .nav
+        width:100%
+        height:auto
+        display:flex
+        flex-direction:column
+        align-items:center
+        box-sizing:border-box
+        li.nav-li
+          width:100%
+          line-height:60px
+          font-size:20px
+          border: none
+          border-bottom: 1px solid transparent
+          background: none
+          display:flex
+          flex-flow: row wrap;
+          .nav-li-span
+            width:100%
+            height:100%
+            padding-left:20px
+            box-sizing:border-box
+          .nav-li-span:hover
+             background-color:#e4e9eb
+             cursor:pointer
 
-  /*background:#F8F8F8*/
+      ul.nav-son-ul
+        width:100%
+        height:auto
+    #right
+      width:85%
+      height:auto
+      background:#fff
+      position:absolute
+      right:0
+      bottom:0
+      top: 60px
 </style>

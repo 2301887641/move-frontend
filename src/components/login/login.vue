@@ -113,7 +113,8 @@
                       _this.load = false
                       if (response.status === 200) {
                           // refresh_token
-                        _this.$lockr.set('access_token', response.data.access_token)
+                        _this.getUser(response.data.access_token)
+                        _this.$lockr.set('user_access_token', response.data.access_token)
                         window.router.replace('index')
                       } else if (response.status === 401) {
                           _this.$Message.error('用户名或密码错误')
@@ -125,6 +126,19 @@
                   return false
                 }
             })
+        },
+        // 获取用户信息
+        getUser(token) {
+          this.$http.get(this.$config.domain + 'user', {
+            // 头部必须携带 否则无法验证
+            headers: {
+              'Authorization': 'Bearer ' + token
+            }
+          }).then((response) => {
+            if (response.status === 200) {
+                this.$lockr.set('user_name', response.data.name)
+            }
+          })
         }
       }
   }

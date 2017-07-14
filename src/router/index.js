@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Login from '@/components/login/login.vue'
 // 首页vue
 import Index from '@/components/index/index.vue'
+// 用户
+import User from '@/components/user/user.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -19,7 +21,10 @@ export default new Router({
       path: '/index',
       history: true,
       component: Index,
-      name: 'Index'
+      name: 'index',
+      children: [
+        {path: 'user', component: User, name: 'user'}
+      ]
     }
   ]
 })
