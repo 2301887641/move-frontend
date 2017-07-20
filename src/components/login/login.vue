@@ -1,5 +1,7 @@
 <template>
-  <div class="login-wrapper">
+  <div>
+    <vue-particles color="#dedede"></vue-particles>
+    <div class="login-wrapper">
       <div class="login-title">
         <img src="/static/image/login-title.png" alt="">
       </div>
@@ -18,9 +20,9 @@
           <Form-item prop="captcha">
             <Row>
               <Col span="12">
-               <Input type="text" v-model="formInline.captcha" placeholder="请输入验证码" @on-change="blur">
-                <Icon type="eye" slot="prepend"></Icon>
-               </Input>
+              <Input type="text" v-model="formInline.captcha" placeholder="请输入验证码" @on-change="blur">
+              <Icon type="eye" slot="prepend"></Icon>
+              </Input>
               </Col>
               <Col span="10" justify="end" push="2">
               <img class="login-captcha" :src="imageSrc" alt="验证码" width="120" height="32" @click="refreshCaptcha()">
@@ -32,7 +34,9 @@
           </Form-item>
         </Form>
       </div>
+    </div>
   </div>
+
 
 </template>
 

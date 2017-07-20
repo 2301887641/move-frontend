@@ -13,9 +13,11 @@ import Axios from 'axios'
 import Config from './config/base.js'
 // 本地存储localstory
 import Lockr from 'lockr'
+import VueParticles from 'vue-particles'
 Vue.config.productionTip = false
 // vue上使用iview
 Vue.use(iView)
+Vue.use(VueParticles)
 Axios.defaults.baseURL = Config.login
 Axios.defaults.timeout = 1000 * 15
 Axios.defaults.headers['Content-Type'] = 'application/json'

@@ -16,12 +16,13 @@
     </header>
     <div id="left">
         <ul class="nav">
-          <li class="nav-li"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span>
-                <ul class="nav-son-ul">
+          <li class="nav-li" @click="menuClick"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span>
+                <ul class="nav-son-ul" v-show="status">
+                  <li class="nav-son-ul-li"><span class="nav-son-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span></li>
                   <li class="nav-son-ul-li"><span class="nav-son-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span></li>
                 </ul>
           </li>
-          <li class="nav-li"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span></li>
+          <li class="nav-li"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span></li>
         </ul>
     </div>
     <div id="right">
@@ -40,7 +41,8 @@
         // 左侧主题
         theme: 'light',
         // 用户名
-        user_name: ''
+        user_name: '',
+        status: false
       }
     },
     created() {
@@ -159,19 +161,41 @@
           border-bottom: 1px solid transparent
           background: none
           display:flex
-          flex-flow: row wrap;
+          flex-flow: row wrap
           .nav-li-span
             width:100%
             height:100%
             padding-left:20px
             box-sizing:border-box
+            position:relative
+            .icon-double-down
+              font-size:20px
+              position:absolute
+              right:20px
           .nav-li-span:hover
              background-color:#e4e9eb
              cursor:pointer
-
-      ul.nav-son-ul
-        width:100%
-        height:auto
+          ul.nav-son-ul
+           width:100%
+           height:auto
+           display:flex
+           flex-direction:column
+           li.nav-son-ul-li
+            width:100%
+            line-height:60px
+            font-size:20px
+            border: none
+            border-bottom: 1px solid transparent
+            background: none
+            display:flex
+            .nav-son-span
+              width:100%
+              height:100%
+              padding-left:50px
+              box-sizing:border-box
+            .nav-son-span:hover
+              background-color:#e4e9eb
+              cursor:pointer
     #right
       width:85%
       height:auto
