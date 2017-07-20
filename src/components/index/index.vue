@@ -16,13 +16,11 @@
     </header>
     <div id="left">
         <ul class="nav">
-          <li class="nav-li" @click="menuClick"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span>
-                <ul class="nav-son-ul" v-show="status">
-                  <li class="nav-son-ul-li"><span class="nav-son-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span></li>
-                  <li class="nav-son-ul-li"><span class="nav-son-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i></span></li>
+          <li class="nav-li" v-for="menu in menus"   @click.stop.prevent="toggleMenu(menu)"><span class="nav-li-span"><i class="fa" :class="menu.icon" aria-hidden="true">&nbsp;&nbsp;{{menu.text}}</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span>
+            <ul class="nav-son-ul" v-show="menu.class" @click.stop>
+                  <li class="nav-son-ul-li" v-for="childMenu in menu.childMenus"><span class="nav-son-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;{{childMenu.text}}</i></span></li>
                 </ul>
           </li>
-          <li class="nav-li"><span class="nav-li-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;用户管理</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span></li>
         </ul>
     </div>
     <div id="right">
@@ -42,14 +40,60 @@
         theme: 'light',
         // 用户名
         user_name: '',
-        status: false
+        menus: [{
+          icon: 'fa-user-plus', // icon用于储存菜单对应的图标
+          text: '用户管理', // text用于储存该菜单显示名称
+          class: '',
+          childMenus: [{
+            href: '/app/services', // href用于设定该菜单跳转路由
+            text: '服务信息' // text用于储存该菜单显示名称
+          }, {
+            href: '/app/add/service', // href用于设定该菜单跳转路由
+            text: '新建' // text用于储存该菜单显示名称
+          }]
+        }, {
+          icon: 'fa-cubes',
+          text: '产品管理',
+          class: '',
+          childMenus: [{
+            href: '/app/products',
+            text: '产品信息'
+          }, {
+            href: '/app/add/product',
+            text: '新建'
+          }]
+        }, {
+          icon: 'fa-file-o',
+          text: '日志管理',
+          class: '',
+          href: '/app/logs'
+        }]
       }
     },
     created() {
       this.user_name = this.$lockr.get('user_name')
+    },
+    methods: {
+      toggleMenu(menu) {
+        let tempClass = menu.class
+        this.menus.forEach(item => {
+          item.class = ''
+        })
+        // 当菜单有href属性时，代表其将进行路由跳转而不是展开收起子菜单
+        // 此时将其余菜单收起
+        if (menu.href) {
+          this.$router.push(menu.href)
+          this.menus.forEach(item => {
+            item.class = ''
+          })
+          menu.class = 'active'
+          return
+        }
+        // 其他时候默认进行子菜单的切换
+        menu.class = (tempClass === 'active') ? '' : 'active'
+      }
     }
   }
-
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
   body

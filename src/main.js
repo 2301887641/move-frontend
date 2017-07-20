@@ -13,6 +13,7 @@ import Axios from 'axios'
 import Config from './config/base.js'
 // 本地存储localstory
 import Lockr from 'lockr'
+// 粒子效果
 import VueParticles from 'vue-particles'
 Vue.config.productionTip = false
 // vue上使用iview
