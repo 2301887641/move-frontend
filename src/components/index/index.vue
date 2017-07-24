@@ -16,9 +16,9 @@
     </header>
     <div id="left">
         <ul class="nav">
-          <li class="nav-li" v-for="menu in menus"   @click.stop.prevent="toggleMenu(menu)"><span class="nav-li-span"><i class="fa" :class="menu.icon" aria-hidden="true">&nbsp;&nbsp;{{menu.text}}</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span>
-            <ul class="nav-son-ul" v-show="menu.class" @click.stop>
-                  <li class="nav-son-ul-li" v-for="childMenu in menu.childMenus"><span class="nav-son-span"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;{{childMenu.text}}</i></span></li>
+          <li class="nav-li" v-for="menu in menus" ref="getli"  @click.stop.prevent="toggleMenu(menu)"><span class="nav-li-span"><i class="fa" :class="menu.icon" aria-hidden="true">&nbsp;&nbsp;{{menu.text}}</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span>
+            <ul class="nav-son-ul"    v-show="menu.class" @click.stop>
+                  <li class="nav-son-ul-li"  v-for="childMenu in menu.childMenus"><span class="nav-son-span" @click="childClick"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;{{childMenu.text}}</i></span></li>
                 </ul>
           </li>
         </ul>
@@ -74,6 +74,17 @@
       this.user_name = this.$lockr.get('user_name')
     },
     methods: {
+      childClick($event) {
+        let backColors = document.getElementsByClassName('nav-li-span-backColor')
+        if (backColors.length > 0) {
+            for (let i = 0; i < backColors.length; i++) {
+                backColors[i].className = 'nav-son-span'
+            }
+        }
+        let oldClassName = $event.currentTarget.className
+        $event.currentTarget.className = oldClassName + ' nav-li-span-backColor'
+      },
+      // 切换菜单
       toggleMenu(menu) {
         let tempClass = menu.class
         this.menus.forEach(item => {
@@ -237,6 +248,7 @@
               height:100%
               padding-left:50px
               box-sizing:border-box
+            .nav-li-span-backColor
             .nav-son-span:hover
               background-color:#e4e9eb
               cursor:pointer
