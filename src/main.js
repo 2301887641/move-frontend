@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 // iview组件
 import iView from 'iview'
+// element组件
+import Element from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 // 使用 iview CSS
 import 'iview/dist/styles/iview.css'
 // ajax请求
@@ -18,6 +21,7 @@ import VueParticles from 'vue-particles'
 Vue.config.productionTip = false
 // vue上使用iview
 Vue.use(iView)
+Vue.use(Element)
 Vue.use(VueParticles)
 Axios.defaults.baseURL = Config.login
 Axios.defaults.timeout = 1000 * 15

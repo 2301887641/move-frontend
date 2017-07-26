@@ -18,13 +18,13 @@
         <ul class="nav">
           <li class="nav-li" v-for="menu in menus" ref="getli"  @click.stop.prevent="toggleMenu(menu)"><span class="nav-li-span"><i class="fa" :class="menu.icon" aria-hidden="true">&nbsp;&nbsp;{{menu.text}}</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span>
             <ul class="nav-son-ul"    v-show="menu.class" @click.stop>
-                  <li class="nav-son-ul-li"  v-for="childMenu in menu.childMenus"><span class="nav-son-span" @click="childClick"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;{{childMenu.text}}</i></span></li>
+              <li class="nav-son-ul-li"  v-for="childMenu in menu.childMenus"><router-link to="/index/user"><span class="nav-son-span" @click="childClick"><i class="fa fa-user-plus" aria-hidden="true">&nbsp;&nbsp;{{childMenu.text}}</i></span></router-link></li>
                 </ul>
           </li>
         </ul>
     </div>
     <div id="right">
-        dfasd
+        <router-view></router-view>
     </div>
   </div>
 
@@ -34,10 +34,6 @@
   export default {
     data() {
       return {
-        // 头部主题
-        topTheme: 'primary',
-        // 左侧主题
-        theme: 'light',
         // 用户名
         user_name: '',
         menus: [{
@@ -59,14 +55,20 @@
             href: '/app/products',
             text: '产品信息'
           }, {
-            href: '/app/add/product',
+            href: 'index',
             text: '新建'
           }]
         }, {
-          icon: 'fa-file-o',
-          text: '日志管理',
+          icon: 'fa-th-large',
+          text: '基础管理',
           class: '',
-          href: '/app/logs'
+          childMenus: [{
+            href: '/index/user',
+            text: '用户管理'
+          }, {
+            href: 'index',
+            text: '新建'
+          }]
         }]
       }
     },
@@ -74,6 +76,7 @@
       this.user_name = this.$lockr.get('user_name')
     },
     methods: {
+      // 点击二级菜单后显示背景
       childClick($event) {
         let backColors = document.getElementsByClassName('nav-li-span-backColor')
         if (backColors.length > 0) {
@@ -243,11 +246,14 @@
             border-bottom: 1px solid transparent
             background: none
             display:flex
-            .nav-son-span
+            a
+             width:100%
+             .nav-son-span
               width:100%
               height:100%
               padding-left:50px
               box-sizing:border-box
+              display:inline-block
             .nav-li-span-backColor
             .nav-son-span:hover
               background-color:#e4e9eb
