@@ -5,8 +5,8 @@
         <el-button type="danger"><i class="el-icon-delete2"></i>&nbsp;批量删除</el-button>
         <el-button type="primary"><i class="el-icon-plus"></i>&nbsp;添加</el-button>
       </span>
-      <span>
-        dfd
+      <span class="count">
+        共有数据：
       </span>
     </div>
   </div>
@@ -25,5 +25,10 @@
       box-sizing:border-box
       background:#f5fafe
       display:flex
-      justify-content: space-between;
+      justify-content: space-between
+      .count
+         margin-right:50px
+         font-size:17px
+         line-height:36px
+         font-weight:bolder
 </style>

@@ -103,7 +103,10 @@
                return false
             }
             this.$refs.formInline.validate((volid) => {
-                if (volid) {
+                  if (!volid) {
+                     _this.load = false
+                     return false
+                  }
                   _this.load = true
                   let data = {
                     username: _this.formInline.name,
@@ -114,26 +117,23 @@
                     scope: '*'
                   }
                   _this.$http.post(this.$config.login, data).then((response) => {
-                      _this.load = false
                       if (response.status === 200) {
+                        _this.load = false
                           // refresh_token
                         _this.getUser(response.data.access_token)
                         _this.$lockr.set('user_access_token', response.data.access_token)
-                        window.router.replace('index')
-                      } else if (response.status === 401) {
-                          _this.$Message.error('用户名或密码错误')
-                          _this.canSubmit = false
+                        this.$route.replace('index')
                       }
+                  }).catch(() => {
+                    _this.load = false
+                    _this.$Message.error('用户名或密码错误')
+                    _this.canSubmit = false
                   })
-                } else {
-                  _this.load = false
-                  return false
-                }
             })
         },
         // 获取用户信息
         getUser(token) {
-          this.$http.get(this.$config.domain + 'user', {
+          this.$http.get(this.$config.domain + 'user/getUser', {
             // 头部必须携带 否则无法验证
             headers: {
               'Authorization': 'Bearer ' + token
