@@ -10,32 +10,25 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 // 使用 iview CSS
 import 'iview/dist/styles/iview.css'
-// ajax请求
-import Axios from 'axios'
-// 本地配置变量
-import Config from './config/base.js'
 // 本地存储localstory
 import Lockr from 'lockr'
 // 粒子效果
 import VueParticles from 'vue-particles'
+// ajax方法和通用配置
+import Http from './config/http.js'
 Vue.config.productionTip = false
 // vue上使用iview
 Vue.use(iView)
+// vue上使用element
 Vue.use(Element)
+// vue上使用粒子效果
 Vue.use(VueParticles)
-Axios.defaults.baseURL = Config.login
-Axios.defaults.timeout = 1000 * 15
-Axios.defaults.headers['Content-Type'] = 'application/json'
-Axios.defaults.withCredentials = true
-
-// 引用axios到vue上
-Vue.prototype.$http = Axios
-// 引用base.js的常量到vue上
-Vue.prototype.$config = Config
+// vue上使用ajax
+Vue.prototype.$http = Http
+// 引用Http的conf到vue上
+Vue.prototype.$config = Http.conf
 // 使用本地存储localstory
 Vue.prototype.$lockr = Lockr
-// 将路由
-window.router = router
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

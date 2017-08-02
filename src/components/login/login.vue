@@ -84,14 +84,12 @@
         blur() {
           if (this.formInline.captcha.length === 4) {
              let _this = this
-             this.$http.get(this.$config.web + 'checkCaptcha/' + this.formInline.captcha).then((response) => {
-                  if (response.status === 200) {
-                    if (response.data.status === 'success') {
-                       _this.canSubmit = true
-                    }
-                  } else {
-                    this.$Message.error('网络异常')
-                  }
+             this.$http.get(this.$config.web + 'checkCaptcha/' + this.formInline.captcha, (response) => {
+               if (response === -1) {
+                  _this.$message.error('网络错误!!')
+                  return
+               }
+               (response.status === 'success') && (_this.canSubmit = true)
              })
           }
         },
@@ -116,33 +114,35 @@
                     client_secret: this.$config.client_secret,
                     scope: '*'
                   }
-                  _this.$http.post(this.$config.login, data).then((response) => {
-                      if (response.status === 200) {
-                        _this.load = false
-                          // refresh_token
-                        _this.getUser(response.data.access_token)
-                        _this.$lockr.set('user_access_token', response.data.access_token)
-                        this.$route.replace('index')
-                      }
-                  }).catch(() => {
-                    _this.load = false
-                    _this.$Message.error('用户名或密码错误')
-                    _this.canSubmit = false
-                  })
+              _this.$http.post(this.$config.login, data, (response) => {
+                 if (response === -1) {
+                   _this.load = false
+                   _this.$Message.error('用户名或密码错误')
+                   _this.canSubmit = false
+                 }
+                 _this.load = false
+                 _this.$lockr.set('user_access_token', response.access_token)
+                 _this.$lockr.set('user_refresh_token', response.refresh_token)
+                 _this.$lockr.set('user_token_type', response.token_type)
+                 _this.$lockr.set('user_expires_in', response.expires_in)
+                 _this.$lockr.set('headers', {headers: {'Authorization': response.token_type + ' ' + response.access_token}})
+                 _this.getUser(response.access_token)
+                 _this.$router.replace('index')
+              })
             })
         },
         // 获取用户信息
         getUser(token) {
-          this.$http.get(this.$config.domain + 'user/getUser', {
-            // 头部必须携带 否则无法验证
-            headers: {
-              'Authorization': 'Bearer ' + token
+          let _this = this
+          let headers = this.$lockr.get('headers')
+          this.$http.get(this.$config.domain + 'user/getUser', (response) => {
+            if (response === -1) {
+               _this.$Message.error('网络错误!!')
+               return
             }
-          }).then((response) => {
-            if (response.status === 200) {
-                this.$lockr.set('user_name', response.data.name)
-            }
-          })
+            this.$lockr.set('user_name', response.name)
+           // 头部必须携带 否则无法验证
+          }, headers)
         }
       }
   }

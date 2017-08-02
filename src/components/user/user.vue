@@ -3,21 +3,21 @@
     <topNav :oneInfo="menuInfo" :twoInfo="menuInfo2"></topNav>
     <topSearch></topSearch>
     <topAdd></topAdd>
-    <!--<div class="table">-->
-      <!--<el-table ref="multipleTable" :data="tableData3" border tooltip-effect="dark" style="width:100%">-->
-        <!--<el-table-column type="selection" width="55"></el-table-column>-->
-        <!--<el-table-column-->
-          <!--prop="name"-->
-          <!--label="姓名"-->
-          <!--width="120">-->
-        <!--</el-table-column>-->
-        <!--<el-table-column-->
-          <!--prop="address"-->
-          <!--label="地址"-->
-          <!--show-overflow-tooltip>-->
-        <!--</el-table-column>-->
-      <!--</el-table>-->
-    <!--</div>-->
+    <div class="table">
+      <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width:100%">
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column
+          prop="name"
+          label="姓名"
+          width="120">
+        </el-table-column>
+        <el-table-column
+          prop="email"
+          label="邮件帐号"
+          show-overflow-tooltip>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -29,7 +29,8 @@
       data() {
         return {
             menuInfo: '基础管理',
-            menuInfo2: '用户管理'
+            menuInfo2: '用户管理',
+            tableData: []
         }
       },
       created() {
@@ -37,7 +38,8 @@
       },
       methods: {
         index() {
-          let token = this.$lockr.set('user_access_token')
+          let token = this.$lockr.get('user_access_token')
+          let _this = this
           this.$http.get(this.$config.domain + 'user', {
             // 头部必须携带 否则无法验证
             headers: {
@@ -45,7 +47,8 @@
             }
           }).then((response) => {
             if (response.status === 200) {
-              console.log(response)
+              _this.tableData = response.data.data.data
+              console.log(response.data.data.data)
             }
           })
         },
