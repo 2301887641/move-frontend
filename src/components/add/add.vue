@@ -6,14 +6,21 @@
         <el-button type="primary"><i class="el-icon-plus"></i>&nbsp;添加</el-button>
       </span>
       <span class="count">
-        共有数据：
+        共有数据：{{count}} 条
       </span>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-  export default {}
+  export default {
+    props: {
+      count: {
+        type: Number,
+        default: 0
+      }
+    }
+  }
 
 </script>
 <style lang="stylus" rel="stylesheet/stylus">

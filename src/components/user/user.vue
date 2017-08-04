@@ -2,7 +2,7 @@
   <div class="user-component">
     <topNav :oneInfo="menuInfo" :twoInfo="menuInfo2"></topNav>
     <topSearch></topSearch>
-    <topAdd></topAdd>
+    <topAdd :count="total"></topAdd>
     <div class="table">
       <el-table ref="multipleTable" :data="tableData" border tooltip-effect="dark" style="width:100%">
         <el-table-column type="selection" width="55"></el-table-column>
@@ -16,7 +16,37 @@
           label="邮件帐号"
           show-overflow-tooltip>
         </el-table-column>
+        <el-table-column
+          prop="created_at"
+          label="创建时间"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="120">
+          <template scope="scope">
+            <el-button
+              @click.native.prevent="updateRow(scope.$index, tableData)"
+              type="text"
+              size="small">
+              编辑
+            </el-button>
+            <el-button
+              @click.native.prevent="deleteRow(scope.$index, tableData)"
+              type="text"
+              size="small">
+              移除
+            </el-button>
+          </template>
+        </el-table-column>
       </el-table>
+    </div>
+    <div class="paginate">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="total" @current-change="currentPage">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -28,32 +58,49 @@
   export default {
       data() {
         return {
+           // 头部tag
             menuInfo: '基础管理',
             menuInfo2: '用户管理',
-            tableData: []
+          // 表格数据
+            tableData: [],
+          // 分页数据
+            total: 0,
+            page: 1,
+          // 修改获取到的数据
+            saveData: {}
         }
       },
       created() {
           this.index()
       },
       methods: {
+        // 表格首页
         index() {
-          let token = this.$lockr.get('user_access_token')
-          let _this = this
-          this.$http.get(this.$config.domain + 'user', {
-            // 头部必须携带 否则无法验证
-            headers: {
-              'Authorization': 'Bearer ' + token
-            }
-          }).then((response) => {
-            if (response.status === 200) {
-              _this.tableData = response.data.data.data
-              console.log(response.data.data.data)
-            }
-          })
+          let headers = this.$lockr.get('headers')
+          headers.params = {
+             page: this.page
+          }
+          this.$http.get(this.$config.domain + 'user', (response) => {
+            this.tableData = response.data.data
+            this.total = response.data.total
+          }, headers)
         },
+        // 分页点击
+        currentPage(page) {
+          this.page = page
+          this.index()
+        },
+        // 查询
         search(time1, time2, text) {
             console.log(time1, time2, text)
+        },
+        // 根据id查找并传给修改组件
+        updateRow(index, data) {
+          let headers = this.$lockr.get('headers')
+          let id = data[index].id
+          this.$http.get(this.$config.domain + 'user/getOne/' + id, (response) => {
+            this.saveData = response.data
+          }, headers)
         }
       },
       components: {
@@ -67,4 +114,8 @@
       .table
         width:97%
         margin:10px auto
+      .paginate
+        display:flex
+        justify-content:flex-end
+        margin-right:20px
 </style>

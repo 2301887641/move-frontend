@@ -83,20 +83,19 @@
         // 验证码框输入内容时触发
         blur() {
           if (this.formInline.captcha.length === 4) {
-             let _this = this
-             this.$http.get(this.$config.web + 'checkCaptcha/' + this.formInline.captcha, (response) => {
+             this.$http.unauthGet(this.$config.web + 'checkCaptcha/' + this.formInline.captcha, (response) => {
                if (response === -1) {
-                  _this.$message.error('网络错误!!')
+                  this.$message.error('网络错误!!')
                   return
                }
-               (response.status === 'success') && (_this.canSubmit = true)
+               (response.status === 'success') && (this.canSubmit = true)
              })
           }
         },
         // 登录操作
         login() {
             let _this = this
-            if (!_this.canSubmit) {
+            if (!this.canSubmit) {
                this.$Message.error('验证码错误')
                return false
             }
@@ -114,7 +113,7 @@
                     client_secret: this.$config.client_secret,
                     scope: '*'
                   }
-              _this.$http.post(this.$config.login, data, (response) => {
+              _this.$http.unauthPost(this.$config.login, data, (response) => {
                  if (response === -1) {
                    _this.load = false
                    _this.$Message.error('用户名或密码错误')
@@ -133,11 +132,10 @@
         },
         // 获取用户信息
         getUser(token) {
-          let _this = this
           let headers = this.$lockr.get('headers')
           this.$http.get(this.$config.domain + 'user/getUser', (response) => {
             if (response === -1) {
-               _this.$Message.error('网络错误!!')
+               this.$Message.error('网络错误!!')
                return
             }
             this.$lockr.set('user_name', response.name)

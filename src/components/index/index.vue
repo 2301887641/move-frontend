@@ -27,7 +27,6 @@
         <router-view></router-view>
     </div>
   </div>
-
 </template>
 
 <script type="text/ecmascript-6">
@@ -139,7 +138,7 @@
         span
           font-weight: bold
           font-family: 'Droid Sans'
-          font-size: 25px
+          font-size: 15px
         .text-logo
           color: #124363
           margin-left:15px
@@ -215,7 +214,7 @@
         li.nav-li
           width:100%
           line-height:60px
-          font-size:20px
+          font-size:15px
           border: none
           border-bottom: 1px solid transparent
           background: none
@@ -227,7 +226,7 @@
             box-sizing:border-box
             position:relative
             .icon-double-down
-              font-size:20px
+              font-size:15px
               position:absolute
               right:20px
           .nav-li-span:hover
@@ -241,7 +240,7 @@
            li.nav-son-ul-li
             width:100%
             line-height:60px
-            font-size:20px
+            font-size:15px
             border: none
             border-bottom: 1px solid transparent
             background: none

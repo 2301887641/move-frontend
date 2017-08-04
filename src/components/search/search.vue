@@ -1,10 +1,22 @@
 <template>
   <div class="search-component">
     <div class="search">
-      <span class="date-text"><el-button>日期范围</el-button></span><span class="date-wrapper"><el-date-picker v-model="value1" type="date" placeholder="选择起始日期" :picker-options="pickerOptions0"></el-date-picker></span>
-      <el-date-picker v-model="value1" type="date" placeholder="选择结束日期" :picker-options="pickerOptions0"></el-date-picker>
-      <span class="search-text"><Input v-model="value" size="large" placeholder="请输入..." style="width: 300px"></Input></span>
-      <span class="search-button"><Button type="primary" size="large" icon="ios-search" @click="search">搜索</Button></span>
+      <el-row :gutter="20">
+        <el-col :span="2" :offset="5"><span>日期范围:</span></el-col>
+        <el-col :span="3">
+          <el-date-picker
+            v-model="date"
+            type="daterange"
+            placeholder="选择日期范围">
+          </el-date-picker>
+        </el-col>
+        <el-col :span="4" :offset="1">
+          <el-input v-model="content" placeholder="请输入内容"></el-input>
+        </el-col>
+        <el-col :span="2">
+          <Button type="primary" icon="ios-search" @click="search">搜索</Button>
+        </el-col>
+      </el-row>
     </div>
   </div>
 
@@ -12,9 +24,21 @@
 
 <script type="text/ecmascript-6">
   export default {
+     data() {
+       return {
+         date: '',
+         content: ''
+       }
+     },
       methods: {
         search() {
-            this.$parent.search(1, 2, '222')
+          let startTime = 0
+          let endTime = 0
+          if (this.date && (this.date.length >= 2)) {
+            startTime = this.date[0]
+            endTime = this.date[1]
+          }
+            this.$parent.search(startTime, endTime, this.content)
         }
       }
   }
@@ -25,20 +49,4 @@
     height: 70px
     line-height:70px
     text-align:center
-    .search
-      .date-text
-        button
-          border-radius:4px 0 0 4px
-          border-right:none
-      .date-wrapper
-        input
-          border-radius:0 4px 4px 0
-      .search-text
-        input
-          position:relative
-          bottom:2px
-      .search-button
-        button
-          position:relative
-          bottom:2px
 </style>
