@@ -48,6 +48,7 @@
         :total="total" @current-change="currentPage">
       </el-pagination>
     </div>
+    <userAdd ref="userAddRef"></userAdd>
   </div>
 </template>
 
@@ -55,6 +56,7 @@
   import topNav from '@/components/nav/nav.vue'
   import topSearch from '@/components/search/search.vue'
   import topAdd from '@/components/add/add.vue'
+  import userAdd from '@/components/user/add.vue'
   export default {
       data() {
         return {
@@ -101,10 +103,21 @@
           this.$http.get(this.$config.domain + 'user/getOne/' + id, (response) => {
             this.saveData = response.data
           }, headers)
+        },
+        // 弹出添加用户窗口
+        add() {
+          this.$refs.userAddRef.useradd = true
+        },
+        // 执行添加用户
+        addOk(data) {
+          let headers = this.$lockr.get('headers')
+          this.$http.post(this.$config.domain + 'user/add', data, (response) => {
+
+          }, headers)
         }
       },
       components: {
-        topNav, topSearch, topAdd
+        topNav, topSearch, topAdd, userAdd
       }
   }
 

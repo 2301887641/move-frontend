@@ -3,7 +3,7 @@
     <div class="action">
       <span>
         <el-button type="danger"><i class="el-icon-delete2"></i>&nbsp;批量删除</el-button>
-        <el-button type="primary"><i class="el-icon-plus"></i>&nbsp;添加</el-button>
+        <el-button type="primary" @click="add"><i class="el-icon-plus"></i>&nbsp;添加</el-button>
       </span>
       <span class="count">
         共有数据：{{count}} 条
@@ -18,6 +18,11 @@
       count: {
         type: Number,
         default: 0
+      }
+    },
+    methods: {
+      add() {
+        this.$parent.add()
       }
     }
   }

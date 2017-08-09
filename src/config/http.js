@@ -22,19 +22,23 @@ Axios.defaults.withCredentials = true
       Axios.get(url, config).then((responent) => {
         // 正确接收到响应后我们的所有数据都在data里面
         callback(responent.data)
-      }).catch((error, responent) => {
+      }).catch((error) => {
         if (error) {
-          // this.errorMessage()
+          this.errorMessage()
         }
       })
     }
     // ajax post请求
     this.post = (url, data, callback, config = '') => {
       Axios.post(url, data, config).then((response) => {
-        callback(response.data)
+        if (response.data.status === 500) {
+          Ele.Message.error(response.data.msg)
+        } else if (response.data.status === 200) {
+          callback(response.data)
+        }
       }).catch((error) => {
         if (error) {
-          // this.errorMessage()
+          this.errorMessage()
         }
       })
     }
