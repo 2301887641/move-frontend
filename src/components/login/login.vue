@@ -94,48 +94,48 @@
         },
         // 登录操作
         login() {
-            let _this = this
             if (!this.canSubmit) {
-               this.$Message.error('验证码错误')
+               this.$message.error('验证码错误')
                return false
             }
             this.$refs.formInline.validate((volid) => {
                   if (!volid) {
-                     _this.load = false
+                     this.load = false
                      return false
                   }
-                  _this.load = true
+                  this.load = true
                   let data = {
-                    username: _this.formInline.name,
-                    password: _this.formInline.password,
+                    username: this.formInline.name,
+                    password: this.formInline.password,
                     grant_type: this.$config.grant_type,
                     client_id: this.$config.client_id,
                     client_secret: this.$config.client_secret,
                     scope: '*'
                   }
-              _this.$http.unauthPost(this.$config.login, data, (response) => {
+              this.$http.unauthPost(this.$config.login, data, (response, error) => {
                  if (response === -1) {
-                   _this.load = false
-                   _this.$Message.error('用户名或密码错误')
-                   _this.canSubmit = false
+                   this.load = false
+                   this.$message.error('用户名或密码错误,或当前用户被禁用')
+                   this.canSubmit = false
+                   return
                  }
-                 _this.load = false
-                 _this.$lockr.set('user_access_token', response.access_token)
-                 _this.$lockr.set('user_refresh_token', response.refresh_token)
-                 _this.$lockr.set('user_token_type', response.token_type)
-                 _this.$lockr.set('user_expires_in', response.expires_in)
-                 _this.$lockr.set('headers', {headers: {'Authorization': response.token_type + ' ' + response.access_token}})
-                 _this.getUser(response.access_token)
-                 _this.$router.replace('index')
+                 this.load = false
+                 this.$lockr.set('user_access_token', response.access_token)
+                 this.$lockr.set('user_refresh_token', response.refresh_token)
+                 this.$lockr.set('user_token_type', response.token_type)
+                 this.$lockr.set('user_expires_in', response.expires_in)
+                 this.$lockr.set('headers', {headers: {'Authorization': response.token_type + ' ' + response.access_token}})
+                 this.getUser(response.access_token)
+                 this.$router.replace('index')
               })
             })
         },
         // 获取用户信息
         getUser(token) {
           let headers = this.$lockr.get('headers')
-          this.$http.get(this.$config.domain + 'user/getUser', (response) => {
+          this.$http.get(this.$config.domain + 'admin/getUser', (response) => {
             if (response === -1) {
-               this.$Message.error('网络错误!!')
+               this.$message.error('网络错误!!')
                return
             }
             this.$lockr.set('user_name', response.name)

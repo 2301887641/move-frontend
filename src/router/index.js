@@ -5,7 +5,7 @@ import Login from '@/components/login/login.vue'
 // 首页vue
 import Index from '@/components/index/index.vue'
 // 用户
-import User from '@/components/user/user.vue'
+import Admin from '@/components/admin/user.vue'
 // 404页面
 import NotFound from '@/components/notfound/index.vue'
 Vue.use(Router)
@@ -30,7 +30,7 @@ export default new Router({
       component: Index,
       name: 'index',
       children: [
-        {path: 'user', component: User, name: 'user'}
+        {path: 'admin', component: Admin, name: 'admin'}
       ]
     }
   ]

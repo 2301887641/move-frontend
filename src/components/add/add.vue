@@ -2,7 +2,7 @@
   <div class="add-component">
     <div class="action">
       <span>
-        <el-button type="danger"><i class="el-icon-delete2"></i>&nbsp;批量删除</el-button>
+        <el-button type="danger" @click="deleteAll"><i class="el-icon-delete2"></i>&nbsp;批量删除</el-button>
         <el-button type="primary" @click="add"><i class="el-icon-plus"></i>&nbsp;添加</el-button>
       </span>
       <span class="count">
@@ -23,6 +23,9 @@
     methods: {
       add() {
         this.$parent.add()
+      },
+      deleteAll() {
+        this.$parent.deleteAll()
       }
     }
   }

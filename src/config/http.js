@@ -19,9 +19,9 @@ Axios.defaults.withCredentials = true
     // ajax get请求  get带参数和header头 axios.get(`http://***/api/v1/public/homepage`, {params: params,headers:{"sn":"201021622343"}})
     this.get = (url, callback, config = '') => {
       // let _this = this
-      Axios.get(url, config).then((responent) => {
+      Axios.get(url, config).then((response) => {
         // 正确接收到响应后我们的所有数据都在data里面
-        callback(responent.data)
+        this.callbackFunc(response, callback)
       }).catch((error) => {
         if (error) {
           this.errorMessage()
@@ -31,11 +31,29 @@ Axios.defaults.withCredentials = true
     // ajax post请求
     this.post = (url, data, callback, config = '') => {
       Axios.post(url, data, config).then((response) => {
-        if (response.data.status === 500) {
-          Ele.Message.error(response.data.msg)
-        } else if (response.data.status === 200) {
-          callback(response.data)
+        this.callbackFunc(response, callback)
+      }).catch((error) => {
+        if (error) {
+          this.errorMessage()
         }
+      })
+    }
+    // ajax put请求
+    this.put = (url, data, callback, config = '') => {
+      Axios.put(url, data, config).then((response) => {
+        this.callbackFunc(response, callback)
+      }).catch((error) => {
+        if (error) {
+          this.errorMessage()
+        }
+      })
+    }
+    // ajax delete请求
+    this.delete = (url, callback, config = '') => {
+      // let _this = this
+      Axios.delete(url, config).then((response) => {
+        // 正确接收到响应后我们的所有数据都在data里面
+        this.callbackFunc(response, callback)
       }).catch((error) => {
         if (error) {
           this.errorMessage()
@@ -63,6 +81,13 @@ Axios.defaults.withCredentials = true
           callback(-1, error)
         }
       })
+    }
+    this.callbackFunc = (response, callback) => {
+      if (response.data.status === 500) {
+        response.data.msg && Ele.Message.error(response.data.msg)
+      } else if (response.data.status === 200) {
+        !callback(response.data) && response.data.msg && Ele.Message.success(response.data.msg)
+      }
     }
     // 错误路由跳转
     this.errorMessage = () => {
