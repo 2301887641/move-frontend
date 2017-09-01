@@ -101,8 +101,8 @@
           let headers = this.$lockr.get('headers')
           headers.params = {
              page: this.page,
-             stime: this.startTime,
-             etime: this.endTime,
+             stime: this.stime,
+             etime: this.etime,
              name: this.name
           }
           this.$http.get(this.$config.domain + 'admin', (response) => {
@@ -120,6 +120,7 @@
           this.stime = time1
           this.etime = time2
           this.name = text
+          this.index()
         },
         // 根据id查找并传给修改组件
         updateRow(index, data) {
@@ -152,10 +153,7 @@
         // 删除全部
         deleteAll() {
           let headers = this.$lockr.get('headers')
-          let data = {
-            id: this.deleteArr
-          }
-          this.$http.post(this.$config.domain + 'admin/delAll', data, (response) => {
+          this.$http.delete(this.$config.domain + 'admin/' + this.deleteArr, (response) => {
             this.index()
           }, headers)
         }

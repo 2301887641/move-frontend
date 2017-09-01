@@ -8,6 +8,8 @@ import Index from '@/components/index/index.vue'
 import Admin from '@/components/admin/user.vue'
 // 404页面
 import NotFound from '@/components/notfound/index.vue'
+// 权限
+import AdminRule from '@/components/authrule/index.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -30,7 +32,8 @@ export default new Router({
       component: Index,
       name: 'index',
       children: [
-        {path: 'admin', component: Admin, name: 'admin'}
+        {path: 'admin', component: Admin, name: 'admin'},
+        {path: 'authrule', component: AdminRule, name: 'authrule'}
       ]
     }
   ]

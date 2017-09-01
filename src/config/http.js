@@ -24,7 +24,7 @@ Axios.defaults.withCredentials = true
         this.callbackFunc(response, callback)
       }).catch((error) => {
         if (error) {
-          this.errorMessage()
+          // this.errorMessage()
         }
       })
     }
@@ -34,7 +34,7 @@ Axios.defaults.withCredentials = true
         this.callbackFunc(response, callback)
       }).catch((error) => {
         if (error) {
-          this.errorMessage()
+          // this.errorMessage()
         }
       })
     }
@@ -56,7 +56,7 @@ Axios.defaults.withCredentials = true
         this.callbackFunc(response, callback)
       }).catch((error) => {
         if (error) {
-          this.errorMessage()
+          // this.errorMessage()
         }
       })
     }

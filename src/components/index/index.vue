@@ -69,6 +69,19 @@
             href: 'index',
             text: '新建'
           }]
+        }, {
+          icon: 'fa-users',
+          text: '后台管理',
+          class: '',
+          childMenus: [{
+            icon: 'fa-user-plus',
+            href: '/index/admin',
+            text: '用户管理'
+          }, {
+            icon: 'fa-user-plus',
+            href: '/index/authrule',
+            text: '权限'
+          }]
         }]
       }
     },

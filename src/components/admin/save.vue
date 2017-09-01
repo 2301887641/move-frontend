@@ -69,6 +69,7 @@
           }
         })
       },
+      // 重置密码
       resetPwd() {
         this.pwd.confirmPassword = ''
         this.pwd.password = ''
@@ -90,6 +91,7 @@
         }
            return true
       },
+      // 关闭弹窗
       remove() {
         this.resetPwd()
       }
