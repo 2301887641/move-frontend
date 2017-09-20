@@ -94,5 +94,18 @@ Axios.defaults.withCredentials = true
       route.replace('/')
       Ele.Message.error('登录超时,请重新登录')
     }
+    // promise 格式同步输出
+    this.syncMenu = (headers) => {
+      return new Promise(function(resolve, reject) {
+        Axios.get(Config.domain + 'menu', headers).then((response) => {
+          resolve(response.data)
+          // state.commit('setMenus', response.data)
+        }).catch((error) => {
+          if (error) {
+            // this.errorMessage()
+          }
+        })
+      })
+    }
   }
 export default Http

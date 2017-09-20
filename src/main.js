@@ -16,6 +16,7 @@ import Lockr from 'lockr'
 import VueParticles from 'vue-particles'
 // ajax方法和通用配置
 import Http from './config/http.js'
+import Store from './vuex/store.js'
 let httpUtil = new Http()
 Vue.config.productionTip = false
 // vue上使用iview
@@ -33,6 +34,7 @@ Vue.prototype.$lockr = Lockr
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store: Store,
   router,
   template: '<App/>',
   components: { App }

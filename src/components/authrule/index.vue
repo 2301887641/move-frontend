@@ -90,13 +90,6 @@
            stripe: true
          }
        },
-      created() {
-//         this.index()
-        let headers = this.$lockr.get('headers')
-        this.$http.get(this.$config.domain + 'menu', (response) => {
-          console.log(response)
-        }, headers)
-      },
       components: {
         topAdd, authruleAdd, authruleSave
       },

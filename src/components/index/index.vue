@@ -26,6 +26,10 @@
     <div id="right">
         <router-view></router-view>
     </div>
+    <el-button
+      type="primary"
+      v-loading.fullscreen.lock="fullscreenLoading">
+    </el-button>
   </div>
 </template>
 
@@ -33,6 +37,7 @@
   export default {
     data() {
       return {
+        fullscreenLoading: false,
         // 用户名
         user_name: '',
         menus: [{
@@ -86,7 +91,13 @@
       }
     },
     created() {
-      this.user_name = this.$lockr.get('user_name')
+      this.fullscreenLoading = true
+      this.$store.dispatch('ajaxMenu').then((res) => {
+        this.$store.commit('setMenus', res)
+        this.fullscreenLoading = false
+        console.log(this.$store.state.menu.menus)
+      })
+//      this.user_name = this.$lockr.get('user_name')
     },
     methods: {
       // 点击二级菜单后显示背景
