@@ -1,10 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import Axios from 'axios'
 import Lockr from 'lockr'
-// import Config from '../config/base.js'
 import HTTP from '../config/http.js'
-let https = new HTTP()
 Vue.use(Vuex)
 
 const Menu = {
@@ -32,14 +29,7 @@ const Menu = {
   actions: {
     ajaxMenu(state) {
       let headers = Lockr.get('headers')
-      return https.syncMenu(headers)
-      // Axios.get(Config.domain + 'menu', headers).then((response) => {
-      //     state.commit('setMenus', response.data)
-      // }).catch((error) => {
-      //   if (error) {
-      //     // this.errorMessage()
-      //   }
-      // })
+      return HTTP.syncMenu(headers)
     }
   }
 }

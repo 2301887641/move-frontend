@@ -16,8 +16,8 @@ import Lockr from 'lockr'
 import VueParticles from 'vue-particles'
 // ajax方法和通用配置
 import Http from './config/http.js'
+// 加载vuex
 import Store from './vuex/store.js'
-let httpUtil = new Http()
 Vue.config.productionTip = false
 // vue上使用iview
 Vue.use(iView)
@@ -26,9 +26,9 @@ Vue.use(Element)
 // vue上使用粒子效果
 Vue.use(VueParticles)
 // vue上使用ajax
-Vue.prototype.$http = httpUtil
+Vue.prototype.$http = Http
 // 引用Http的conf到vue上
-Vue.prototype.$config = httpUtil.conf
+Vue.prototype.$config = Http.conf
 // 使用本地存储localstory
 Vue.prototype.$lockr = Lockr
 /* eslint-disable no-new */
