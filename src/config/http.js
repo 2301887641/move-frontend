@@ -99,10 +99,11 @@ Axios.defaults.withCredentials = true
       return new Promise(function(resolve, reject) {
         Axios.get(Config.domain + 'menu', headers).then((response) => {
           resolve(response.data)
-          // state.commit('setMenus', response.data)
         }).catch((error) => {
           if (error) {
-            // this.errorMessage()
+            if (error.response.data && error.response.data.error) {
+              (error.response.data.error.indexOf('Unauthenticated') !== false) && Ele.Message.error('认证失败,请重新登录!!!')
+            }
           }
         })
       })

@@ -14,15 +14,11 @@
         <span class="right-wrapper"><i class="fa fa-user-circle fa-3x" aria-hidden="true"></i><span class="notification">3</span></span>
       </div>
     </header>
+    <!--左菜单-->
     <div id="left">
-        <ul class="nav">
-          <li class="nav-li" v-for="menu in menus" ref="getli"  @click.stop.prevent="toggleMenu(menu)"><span class="nav-li-span"><i class="fa" :class="menu.icon" aria-hidden="true">&nbsp;&nbsp;{{menu.text}}</i><span class="icon-double-down"><i class="fa fa-angle-double-down" aria-hidden="true"></i></span></span>
-            <ul class="nav-son-ul"    v-show="menu.class" @click.stop>
-              <li class="nav-son-ul-li"  v-for="childMenu in menu.childMenus"><router-link :to="childMenu.href"><span class="nav-son-span" @click="childClick"><i class="fa" :class="childMenu.icon" aria-hidden="true">&nbsp;&nbsp;{{childMenu.text}}</i></span></router-link></li>
-                </ul>
-          </li>
-        </ul>
+      <Menus :menus="menus"></Menus>
     </div>
+    <!--右路由-->
     <div id="right">
         <router-view></router-view>
     </div>
@@ -34,60 +30,63 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import Menus from '@/components/menu/index.vue'
   export default {
     data() {
       return {
+        // 全屏load
         fullscreenLoading: false,
         // 用户名
         user_name: '',
-        menus: [{
-          icon: 'fa-user-plus', // icon用于储存菜单对应的图标
-          text: '用户管理', // text用于储存该菜单显示名称
-          class: '',
-          childMenus: [{
-            href: '/app/services', // href用于设定该菜单跳转路由
-            text: '服务信息' // text用于储存该菜单显示名称
-          }, {
-            href: '/app/add/service', // href用于设定该菜单跳转路由
-            text: '新建' // text用于储存该菜单显示名称
-          }]
-        }, {
-          icon: 'fa-cubes',
-          text: '产品管理',
-          class: '',
-          childMenus: [{
-            href: '/app/products',
-            text: '产品信息'
-          }, {
-            href: 'index',
-            text: '新建'
-          }]
-        }, {
-          icon: 'fa-th-large',
-          text: '基础管理',
-          class: '',
-          childMenus: [{
-            icon: 'fa-user-plus',
-            href: '/index/admin',
-            text: '用户管理'
-          }, {
-            href: 'index',
-            text: '新建'
-          }]
-        }, {
-          icon: 'fa-users',
-          text: '后台管理',
-          class: '',
-          childMenus: [{
-            icon: 'fa-user-plus',
-            href: '/index/admin',
-            text: '用户管理'
-          }, {
-            icon: 'fa-user-plus',
-            href: '/index/authrule',
-            text: '权限'
-          }]
-        }]
+        menus: []
+//        menus: [{
+//          icon: 'fa-user-plus', // icon用于储存菜单对应的图标
+//          text: '用户管理', // text用于储存该菜单显示名称
+//          class: '',
+//          childMenus: [{
+//            href: '/app/services', // href用于设定该菜单跳转路由
+//            text: '服务信息' // text用于储存该菜单显示名称
+//          }, {
+//            href: '/app/add/service', // href用于设定该菜单跳转路由
+//            text: '新建' // text用于储存该菜单显示名称
+//          }]
+//        }, {
+//          icon: 'fa-cubes',
+//          text: '产品管理',
+//          class: '',
+//          childMenus: [{
+//            href: '/app/products',
+//            text: '产品信息'
+//          }, {
+//            href: 'index',
+//            text: '新建'
+//          }]
+//        }, {
+//          icon: 'fa-th-large',
+//          text: '基础管理',
+//          class: '',
+//          childMenus: [{
+//            icon: 'fa-user-plus',
+//            href: '/index/admin',
+//            text: '用户管理'
+//          }, {
+//            href: 'index',
+//            text: '新建'
+//          }]
+//        }, {
+//          icon: 'fa-users',
+//          text: '后台管理',
+//          class: '',
+//          childMenus: [{
+//            icon: 'fa-user-plus',
+//            href: '/index/admin',
+//            text: '用户管理'
+//          }, {
+//            icon: 'fa-user-plus',
+//            href: '/index/authrule',
+//            text: '权限'
+//          }]
+//        }]
       }
     },
     created() {
@@ -95,41 +94,44 @@
       this.$store.dispatch('ajaxMenu').then((res) => {
         this.$store.commit('setMenus', res)
         this.fullscreenLoading = false
-        console.log(this.$store.state.menu.menus)
+        this.menus = this.$store.state.menu.menus
       })
-//      this.user_name = this.$lockr.get('user_name')
+      this.user_name = this.$lockr.get('user_name')
+    },
+    components: {
+      Menus
     },
     methods: {
       // 点击二级菜单后显示背景
-      childClick($event) {
-        let backColors = document.getElementsByClassName('nav-li-span-backColor')
-        if (backColors.length > 0) {
-            for (let i = 0; i < backColors.length; i++) {
-                backColors[i].className = 'nav-son-span'
-            }
-        }
-        let oldClassName = $event.currentTarget.className
-        $event.currentTarget.className = oldClassName + ' nav-li-span-backColor'
-      },
+//      childClick($event) {
+//        let backColors = document.getElementsByClassName('nav-li-span-backColor')
+//        if (backColors.length > 0) {
+//            for (let i = 0; i < backColors.length; i++) {
+//                backColors[i].className = 'nav-son-span'
+//            }
+//        }
+//        let oldClassName = $event.currentTarget.className
+//        $event.currentTarget.className = oldClassName + ' nav-li-span-backColor'
+//      },
       // 切换菜单
-      toggleMenu(menu) {
-        let tempClass = menu.class
-        this.menus.forEach(item => {
-          item.class = ''
-        })
-        // 当菜单有href属性时，代表其将进行路由跳转而不是展开收起子菜单
-        // 此时将其余菜单收起
-        if (menu.href) {
-          this.$router.push(menu.href)
-          this.menus.forEach(item => {
-            item.class = ''
-          })
-          menu.class = 'active'
-          return
-        }
-        // 其他时候默认进行子菜单的切换
-        menu.class = (tempClass === 'active') ? '' : 'active'
-      }
+//      toggleMenu(menu) {
+//        let tempClass = menu.class
+//        this.menus2.forEach(item => {
+//          item.class = ''
+//        })
+//        // 当菜单有href属性时，代表其将进行路由跳转而不是展开收起子菜单
+//        // 此时将其余菜单收起
+//        if (menu.parent_id > 0) {
+//          this.$router.push(menu.role)
+//          this.menus2.forEach(item => {
+//            item.class = ''
+//          })
+//          menu.class = 'active'
+//          return
+//        }
+//        // 其他时候默认进行子菜单的切换
+//        menu.class = (tempClass === 'active') ? '' : 'active'
+//      }
     }
   }
 </script>
