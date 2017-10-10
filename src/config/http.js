@@ -89,10 +89,10 @@ Http.unauthPost = (url, data, callback, config = '') => {
 
 // 回调
 Http.callbackFunc = (response, callback) => {
-  if (response.data.status === 500) {
-    response.data.msg && Ele.Message.error(response.data.msg)
-  } else if (response.data.status === 200) {
-    !callback(response.data) && response.data.msg && Ele.Message.success(response.data.msg)
+  if (response.status === 500) {
+    response.msg && Ele.Message.error(response.msg)
+  } else if (response.status === 200) {
+    !callback(response.data) && response.msg && Ele.Message.success(response.msg)
   }
 }
 
@@ -110,8 +110,6 @@ Http.syncMenu = (headers) => {
     })
   })
 }
-
-// let Http = function() {
 
 // 错误路由跳转
 // this.errorMessage = () => {

@@ -10,6 +10,8 @@ import Admin from '@/components/admin/user.vue'
 import NotFound from '@/components/notfound/index.vue'
 // 权限
 import AdminRule from '@/components/authrule/index.vue'
+// 角色组
+import AuthGroup from '@/components/authgroup/index.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -33,7 +35,8 @@ export default new Router({
       name: 'index',
       children: [
         {path: 'admin', component: Admin, name: 'admin'},
-        {path: 'authrule', component: AdminRule, name: 'authrule'}
+        {path: 'authrule', component: AdminRule, name: 'authrule'},
+        {path: 'authgroup', component: AuthGroup, name: 'authgroup'}
       ]
     }
   ]
