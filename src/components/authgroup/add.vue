@@ -27,6 +27,7 @@
           node-key="id"
           ref="tree"
           highlight-current
+          check-strictly
           :props="defaultProps"
           @check-change="checkTree"
         >
@@ -43,7 +44,7 @@
     export default{
         data() {
           return {
-            authgroupadd: false,
+            authgroupadd: true,
             maskClosable: false,
             closable: false,
             modal_loading: false,
@@ -58,7 +59,9 @@
             },
             defaultProps: {
               children: 'children',
-              label: 'name'
+              label: 'name',
+              // 必须设置这个 否则无法禁用
+              disabled: 'disabled'
             }
           }
         },
@@ -73,20 +76,15 @@
           this.authgroupadd = false
         },
         checkTree(data, node, text) {
-          // 选中子节点的情况分为两类:
-          // 1.node等于true的话说明当前被选中了 分为：如果是选择子类的话,父类不会被选中,所以需要在else中判断
           if (node === true) {
-            this.form.permissions_id[data.id] = data.id
-          } else {
-            // 如果是父节点的话也需要加入到数组中
-             if (data.parent_id === 0) {
-               this.form.permissions_id[data.id] = data.id
-             }
+//            console.log(data)
+         } else {
+//            console.log(1)
           }
         },
         // 保存操作
         addOk() {
-          console.log(Object.keys(this.form.permissions_id))
+//          console.log(this.form.permissions_id)
           return
 //          this.$refs.formCustom.validate((valid) => {
 //            if (valid) {

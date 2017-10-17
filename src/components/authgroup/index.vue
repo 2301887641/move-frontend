@@ -98,6 +98,7 @@
           let headers = this.$lockr.get('headers')
           this.$http.get(this.$config.domain + 'getPermissions', (response) => {
             this.permissions = response
+            console.log(response)
           }, headers)
         }
       }
