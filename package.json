@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "element-ui": "^1.4.0",
+    "element-ui": "^2.0.0-alpha.3",
     "iview": "^2.0.0-rc.17",
     "lockr": "^0.8.4",
     "vue": "2.3.3",

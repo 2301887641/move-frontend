@@ -7,7 +7,7 @@ import router from './router'
 import iView from 'iview'
 // element组件
 import Element from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 // 使用 iview CSS
 import 'iview/dist/styles/iview.css'
 // 本地存储localstory

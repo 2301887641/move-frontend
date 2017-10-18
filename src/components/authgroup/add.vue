@@ -14,7 +14,7 @@
       </Form>
       <el-alert
         title="权限列表"
-        type="info"
+        type="warning"
         :closable="false"
         description="请给当前角色分配权限!!"
         show-icon>
@@ -27,9 +27,8 @@
           node-key="id"
           ref="tree"
           highlight-current
-          check-strictly
           :props="defaultProps"
-          @check-change="checkTree"
+          @node-expand="expand"
         >
         </el-tree>
       <div slot="footer">
@@ -44,7 +43,7 @@
     export default{
         data() {
           return {
-            authgroupadd: true,
+            authgroupadd: false,
             maskClosable: false,
             closable: false,
             modal_loading: false,
@@ -52,16 +51,18 @@
               name: '',
               permissions_id: {}
             },
+            // 展开后的一级树对象 和二级树对象
+            levelOne: {},
+            levelTwo: {},
             ruleCustom: {
               name: [
                 { required: true, message: '请输入角色名称', trigger: 'blur' }
               ]
             },
+            // 指定树形结构规则 子级在children中
             defaultProps: {
               children: 'children',
-              label: 'name',
-              // 必须设置这个 否则无法禁用
-              disabled: 'disabled'
+              label: 'name'
             }
           }
         },
@@ -75,17 +76,43 @@
         remove() {
           this.authgroupadd = false
         },
-        checkTree(data, node, text) {
-          if (node === true) {
-//            console.log(data)
-         } else {
-//            console.log(1)
+        // 展开树
+        expand(obj, node, data) {
+          // 一级展开和二级展开
+          if (node.level === 1) {
+             this.levelOne[obj.id] = node
+          } else if (node.level === 2) {
+             this.levelTwo[obj.id] = node
           }
+        },
+        loop(id) {
+          // 如果在二级里面有的话
+            if (this.levelTwo[id]) {
+              this.form.permissions_id[id] = this.levelTwo[id]
+            } else if (this.levelOne[id]) {
+              this.form.permissions_id[id] = this.levelOne[id]
+            }
         },
         // 保存操作
         addOk() {
-//          console.log(this.form.permissions_id)
+          let checkedNodes = this.$refs.tree.getCheckedNodes()
+          if (checkedNodes.length < 1) {
+            this.$notify.error({
+              title: '错误',
+              message: '请先选择权限!!'
+            })
+          }
+          console.log(this.levelOne, this.levelTwo)
+          console.log(checkedNodes)
+          for (let v of checkedNodes) {
+            this.form.permissions_id[v.id] = v.id
+            if (v.parent_id !== 0) {
+              this.loop(v.parent_id)
+            }
+          }
           return
+//          console.log(this.form.permissions_id)
+//          return
 //          this.$refs.formCustom.validate((valid) => {
 //            if (valid) {
 //              this.form.permissions_id = this.$refs.tree.getCheckedKeys()
