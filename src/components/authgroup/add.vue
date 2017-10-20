@@ -52,7 +52,6 @@
           permission_id: {}
         },
         // 展开后的一级树对象 和二级树对象
-        levelOne: {},
         levelTwo: {},
         permissions_id: {},
         ruleCustom: {
@@ -80,9 +79,7 @@
       // 展开树
       expand(obj, node, data) {
         // 一级展开和二级展开
-        if (node.level === 1) {
-          this.levelOne[obj.id] = node
-        } else if (node.level === 2) {
+        if (node.level === 2) {
           this.levelTwo[obj.id] = node
         }
       },
@@ -91,14 +88,7 @@
         // 如果在二级里面有的话
         if (this.levelTwo[id]) {
           this.permissions_id[id] = this.levelTwo[id]
-          // 如果二级有父类的话 同样需要放入进去
-          if (this.levelTwo[id].data.parent_id) {
-            this.permissions_id[this.levelTwo[id].data.parent_id] = this.levelTwo[id].data.parent_id
-          }
-          // 一级里面是否存在
-        } else if (this.levelOne[id]) {
-          this.permissions_id[id] = this.levelOne[id]
-        }
+         }
       },
       // 保存操作
       addOk() {
@@ -122,10 +112,10 @@
             this.form.permission_id = Object.keys(this.permissions_id)
             let headers = this.$lockr.get('headers')
             this.$http.post(this.$config.domain + 'authGroup', this.form, (response) => {
-              this.permissions_id = {}
-              this.$refs.formCustom.resetFields()
-              this.$parent.index()
+//              this.$refs.formCustom.resetFields()
+//              this.$parent.index()
             }, headers)
+            this.permissions_id = {}
           }
         })
       }
