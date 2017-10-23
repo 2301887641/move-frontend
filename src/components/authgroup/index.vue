@@ -73,7 +73,18 @@
           stripe: true,
           tableData: [],
           total: 0,
-          permissions: []
+          permissions: [],
+          // 表格数据
+          page: 1,
+          // 修改获取到的数据
+          saveData: {},
+          // 删除id
+          deleteArr: [],
+          // 开始结束时间
+          stime: 0,
+          etime: 0,
+          // 根据用户名查询
+          name: ''
         }
       },
       components: {
@@ -81,6 +92,7 @@
       },
       created() {
         this.getPermissions()
+        this.index()
       },
       methods: {
         // 点击选择删除
@@ -94,10 +106,25 @@
         add() {
           this.$refs.authgroupAddRef.authgroupadd = true
         },
+        // 获取权限树
         getPermissions() {
           let headers = this.$lockr.get('headers')
           this.$http.get(this.$config.domain + 'getPermissions', (response) => {
             this.permissions = response
+          }, headers)
+        },
+        // 首页数据获取
+        index() {
+          let headers = this.$lockr.get('headers')
+          headers.params = {
+            page: this.page,
+            stime: this.stime,
+            etime: this.etime,
+            name: this.name
+          }
+          this.$http.get(this.$config.domain + 'authGroup', (response) => {
+            this.tableData = response.data.data
+            this.total = response.data.total
           }, headers)
         }
       }

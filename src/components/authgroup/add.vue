@@ -112,8 +112,12 @@
             this.form.permission_id = Object.keys(this.permissions_id)
             let headers = this.$lockr.get('headers')
             this.$http.post(this.$config.domain + 'authGroup', this.form, (response) => {
-//              this.$refs.formCustom.resetFields()
-//              this.$parent.index()
+              this.authgroupadd = false
+              // 清空树
+              this.$refs.tree.setCheckedKeys([])
+              // 清空form
+              this.$refs.formCustom.resetFields()
+              this.$parent.index()
             }, headers)
             this.permissions_id = {}
           }

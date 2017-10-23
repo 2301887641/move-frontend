@@ -11,7 +11,10 @@
         <Form-item label="上级权限:" prop="parent_id">
           <Select v-model="form.parent_id" style="width:200px">
             <Option :value="0">顶级权限</Option>
-            <Option v-for="item in authlist" :value="item.id" :key="item.name">{{"------".repeat(item.level)+item.name}}</Option>
+            <!--如果是当前的权限 取消显示-->
+            <Option v-for="item in authlist" :value="item.id" :key="item.name" v-if="item.id != form.id">
+                {{"------".repeat(item.level)+item.name}}
+            </Option>
           </Select>
         </Form-item>
         <Form-item label="权限名称:" prop="name">
