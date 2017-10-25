@@ -12,7 +12,7 @@
           show-overflow-tooltip>
         </el-table-column>
         <el-table-column
-          prop="rule"
+          prop="permissions_name"
           label="权限规则"
         >
         </el-table-column>
@@ -60,13 +60,14 @@
     </div>
     <!--:authlist='authlist'-->
     <authgroupAdd ref="authgroupAddRef" :permissions="permissions"></authgroupAdd>
-    <!--<authruleSave ref="authruleSaveRef" :authlist='authlist' :form='saveData'></authruleSave>-->
+    <authgroupSave ref="authgroupSaveRef" :permissions='permissions' :form='saveData'></authgroupSave>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import topAdd from '@/components/add/add.vue'
   import authgroupAdd from '@/components/authgroup/add.vue'
+  import authgroupSave from '@/components/authgroup/save.vue'
     export default{
       data() {
         return {
@@ -88,7 +89,7 @@
         }
       },
       components: {
-        topAdd, authgroupAdd
+        topAdd, authgroupAdd, authgroupSave
       },
       created() {
         this.getPermissions()
@@ -125,6 +126,16 @@
           this.$http.get(this.$config.domain + 'authGroup', (response) => {
             this.tableData = response.data.data
             this.total = response.data.total
+          }, headers)
+        },
+        // 修改操作
+        updateRow(index, data) {
+          let headers = this.$lockr.get('headers')
+          let id = data[index].id
+          this.$http.get(this.$config.domain + 'authGroup/' + id, (response) => {
+            this.saveData = response.data
+            this.$refs.authgroupSaveRef.authgroupsave = true
+            this.$refs.authgroupSaveRef.setClick()
           }, headers)
         }
       }

@@ -87,7 +87,7 @@
       loop(id) {
         // 如果在二级里面有的话
         if (this.levelTwo[id]) {
-          this.permissions_id[id] = this.levelTwo[id]
+          this.permissions_id[id] = parseInt(id)
          }
       },
       // 保存操作
@@ -104,12 +104,12 @@
             // 遍历点击的节点
             checkedNodes.forEach((v, k) => {
               // 先放入到权限数组中
-              this.permissions_id[v.id] = v.id
+              this.permissions_id[v.id] = parseInt(v.id)
               if (v.parent_id !== 0) {
                 this.loop(v.parent_id)
               }
             })
-            this.form.permission_id = Object.keys(this.permissions_id)
+            this.form.permission_id = Object.values(this.permissions_id)
             let headers = this.$lockr.get('headers')
             this.$http.post(this.$config.domain + 'authGroup', this.form, (response) => {
               this.authgroupadd = false

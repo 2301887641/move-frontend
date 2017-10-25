@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal
-      v-model="authrule"
+      v-model="authgroupsave"
       :mask-closable="maskClosable"
       :closable="closable">
       <p slot="header">
