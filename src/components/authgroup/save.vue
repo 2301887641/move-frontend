@@ -28,6 +28,7 @@
           ref="tree"
           highlight-current
           :props="defaultProps"
+          default-expand-all
           @node-expand="expand"
         >
         </el-tree>
@@ -67,8 +68,12 @@
     methods: {
       setClick() {
         // 需要转成数组
-        console.log(this.form.permission_id)
-        this.$refs.tree.setCheckedKeys([this.form.permission_id])
+        let arr = this.form.permission_id.split(',')
+        console.log(arr)
+        console.log(1111111111)
+        setTimeout(() => {
+          this.$refs.tree.setCheckedKeys(arr)
+        }, 3000)
       },
       // 展开树
       expand(obj, node, data) {
