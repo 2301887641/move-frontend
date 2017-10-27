@@ -29,9 +29,13 @@
           highlight-current
           :props="defaultProps"
           default-expand-all
-          @node-expand="expand"
+          :filter-node-method="tree"
         >
         </el-tree>
+        <div slot="footer">
+          <Button type="ghost" style="margin-left: 8px" @click="remove">取消</Button>
+          <Button type="primary" :loading="modal_loading" @click="addOk">保存</Button>
+        </div>
       </Modal>
     </div>
 </template>
@@ -40,11 +44,13 @@
   export default{
     data() {
       return {
+        modal_loading: false,
         authgroupsave: false,
         maskClosable: false,
         closable: false,
         // 展开后的一级树对象 和二级树对象
         levelTwo: {},
+        permissions_id: {},
         ruleCustom: {
           name: [
             {required: true, message: '请输入角色名称', trigger: 'blur'}
@@ -65,22 +71,68 @@
         default: Object
       }
     },
-    methods: {
-      setClick() {
+    // 绑定事件
+    beforeCreate() {
+      this.$root.Eventbus.$on('increment', (id) => {
         // 需要转成数组
-        let arr = this.form.permission_id.split(',')
-        console.log(arr)
-        console.log(1111111111)
-        setTimeout(() => {
-          this.$refs.tree.setCheckedKeys(arr)
-        }, 3000)
-      },
-      // 展开树
-      expand(obj, node, data) {
-        // 一级展开和二级展开
+        let arr = id.split(',')
+        // 遍历树
+        this.$refs.tree.filter()
+        this.$refs.tree.setCheckedKeys(arr)
+      })
+    },
+    methods: {
+      tree(value, data, node) {
         if (node.level === 2) {
-          this.levelTwo[obj.id] = node
+          this.levelTwo[node.id] = node
         }
+        return true
+      },
+      // 取消操作
+      remove() {
+        this.authgroupsave = false
+      },
+      // 在一级或二级中查找
+      loop(id) {
+        // 如果在二级里面有的话
+        if (this.levelTwo[id]) {
+          this.permissions_id[id] = parseInt(id)
+        }
+      },
+      // 保存操作
+      addOk() {
+        this.$refs.formCustom.validate((valid) => {
+          if (valid) {
+            let checkedNodes = this.$refs.tree.getCheckedNodes()
+            if (checkedNodes.length < 1) {
+              this.$notify.error({
+                title: '错误',
+                message: '请先选择权限!!'
+              })
+              return
+            }
+            // 遍历点击的节点
+            checkedNodes.forEach((v, k) => {
+              // 先放入到权限数组中
+              this.permissions_id[v.id] = parseInt(v.id)
+              if (v.parent_id !== 0) {
+                this.loop(v.parent_id)
+              }
+            })
+            this.form.permission_id = Object.values(this.permissions_id)
+            let headers = this.$lockr.get('headers')
+            let id = this.form.id
+            this.$http.put(this.$config.domain + 'authGroup/' + id, this.form, (response) => {
+              this.authgroupsave = false
+              // 清空树
+              this.$refs.tree.setCheckedKeys([])
+              // 清空form
+              this.$refs.formCustom.resetFields()
+              this.$parent.index()
+            }, headers)
+            this.permissions_id = {}
+          }
+        })
       }
     }
   }

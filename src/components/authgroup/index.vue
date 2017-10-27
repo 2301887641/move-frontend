@@ -135,7 +135,8 @@
           this.$http.get(this.$config.domain + 'authGroup/' + id, (response) => {
             this.saveData = response.data
             this.$refs.authgroupSaveRef.authgroupsave = true
-            this.$refs.authgroupSaveRef.setClick()
+            // 子组件通过 $emit触发父组件的方法 increment
+            this.$root.Eventbus.$emit('increment', this.saveData.permission_id, event.target)
           }, headers)
         }
       }

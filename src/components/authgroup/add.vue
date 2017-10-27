@@ -27,8 +27,9 @@
         node-key="id"
         ref="tree"
         highlight-current
+        default-expand-all
         :props="defaultProps"
-        @node-expand="expand"
+        :filter-node-method="tree"
       >
       </el-tree>
       <div slot="footer">
@@ -72,16 +73,15 @@
       }
     },
     methods: {
+      tree(value, data, node) {
+        if (node.level === 2) {
+          this.levelTwo[node.id] = node
+        }
+        return true
+      },
       // 取消操作
       remove() {
         this.authgroupadd = false
-      },
-      // 展开树
-      expand(obj, node, data) {
-        // 一级展开和二级展开
-        if (node.level === 2) {
-          this.levelTwo[obj.id] = node
-        }
       },
       // 在一级或二级中查找
       loop(id) {
@@ -100,6 +100,7 @@
                 title: '错误',
                 message: '请先选择权限!!'
               })
+              return
             }
             // 遍历点击的节点
             checkedNodes.forEach((v, k) => {
