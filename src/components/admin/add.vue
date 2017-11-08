@@ -11,6 +11,16 @@
           <Form-item label="用户名:" prop="name">
             <Input type="text" v-model="form.name"></Input>
           </Form-item>
+          <!--这里-->
+          <Form-item label="角色:" prop="rule">
+            <Select v-model="form.parent_id" style="width:200px">
+              <Option :value="0">顶级权限</Option>
+              <!--如果是当前的权限 取消显示-->
+              <Option v-for="item in rules" :value="item.id" :key="item.name" v-if="item.id != form.id">
+                {{"------".repeat(item.level)+item.name}}
+              </Option>
+            </Select>
+          </Form-item>
           <Form-item label="邮箱:" prop="email">
             <Input type="text" v-model="form.email"></Input>
           </Form-item>
@@ -87,6 +97,9 @@
         this.$refs.formCustom.resetFields()
         this.useradd = false
       }
+    },
+    props: {
+      rules: {}
     }
   }
 </script>

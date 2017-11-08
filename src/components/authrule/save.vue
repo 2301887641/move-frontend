@@ -1,7 +1,7 @@
 <template>
   <div>
     <Modal
-      v-model="authgroupsave"
+      v-model="authrulesave"
       :mask-closable="maskClosable"
       :closable="closable">
       <p slot="header">
@@ -54,7 +54,7 @@
     export default{
       data() {
         return {
-          authrule: false,
+          authrulesave: false,
           maskClosable: false,
           modal_loading: false,
           closable: false,
@@ -85,7 +85,7 @@
       methods: {
         // 关闭弹窗
         remove() {
-          this.authrule = false
+          this.authrulesave = false
         },
         // 点击修改
         Ok() {
@@ -95,7 +95,7 @@
               let id = this.form.id
               let data = this.form
               this.$http.put(this.$config.domain + 'authRule/' + id, data, (response) => {
-                this.authrule = false
+                this.authrulesave = false
                 this.$parent.index()
               }, headers)
             }

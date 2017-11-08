@@ -2,7 +2,7 @@
   <div class="user-component">
     <topNav :oneInfo="menuInfo" :twoInfo="menuInfo2"></topNav>
     <topSearch></topSearch>
-    <topAdd :count="total"></topAdd>
+    <topAdd :count="total"><div slot="self">234324</div></topAdd>
     <div class="table">
       <el-table ref="multipleTable" @selection-change="selectData" :data="tableData" border tooltip-effect="dark" style="width:100%">
         <el-table-column type="selection" width="55"></el-table-column>
@@ -59,8 +59,8 @@
         :total="total" @current-change="currentPage">
       </el-pagination>
     </div>
-    <userAdd ref="userAddRef"></userAdd>
-    <userSave ref="userSaveRef" :form="saveData"></userSave>
+    <userAdd ref="userAddRef" :rules="rules"></userAdd>
+    <userSave ref="userSaveRef" :form="saveData" :rules="rules"></userSave>
   </div>
 </template>
 
@@ -89,13 +89,23 @@
             stime: 0,
             etime: 0,
           // 根据用户名查询
-            name: ''
+            name: '',
+          // 角色列表
+            rules: []
         }
       },
       created() {
           this.index()
+          this.getAuthList()
       },
       methods: {
+        // 获取角色列表
+        getAuthList() {
+          let headers = this.$lockr.get('headers')
+          this.$http.get(this.$config.domain + 'authGroupList', (response) => {
+            this.rules = response.data
+          }, headers)
+        },
         // 表格首页
         index() {
           let headers = this.$lockr.get('headers')

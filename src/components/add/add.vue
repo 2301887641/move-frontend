@@ -4,6 +4,8 @@
       <span>
         <el-button type="danger" @click="deleteAll"><i class="el-icon-delete2"></i>&nbsp;批量删除</el-button>
         <el-button type="primary" @click="add"><i class="el-icon-plus"></i>&nbsp;添加</el-button>
+        <!--认证-->
+        <slot name="addAuth"></slot>
       </span>
       <span class="count">
         共有数据：{{count}} 条

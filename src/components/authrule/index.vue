@@ -30,6 +30,7 @@
         <el-table-column
           prop="status"
           label="是否启用"
+          :formatter="formatterStatus"
         >
         </el-table-column>
         <el-table-column
@@ -97,6 +98,11 @@
         topAdd, authruleAdd, authruleSave
       },
       methods: {
+        formatterStatus(row, column, cellValue) {
+          if (row.status === 1) {
+            return '已启用'
+          }
+        },
         formatterData(row, column, cellValue) {
           return '------'.repeat(row.level) + row.name
         },
@@ -106,7 +112,7 @@
           let id = data[index].id
           this.$http.get(this.$config.domain + 'authRule/' + id + '/edit', (response) => {
             this.saveData = response.data
-            this.$refs.authruleSaveRef.authrule = true
+            this.$refs.authruleSaveRef.authrulesave = true
             this.getList()
           }, headers)
         },

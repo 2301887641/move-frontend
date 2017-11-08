@@ -60,7 +60,7 @@
     </div>
     <!--:authlist='authlist'-->
     <authgroupAdd ref="authgroupAddRef" :permissions="permissions"></authgroupAdd>
-    <authgroupSave ref="authgroupSaveRef" :permissions='permissions' :form='saveData'></authgroupSave>
+    <authgroupSave ref="authgroupSaveRef" :permissions='permissions' :form='saveData' :treeClickId="treeClickId"></authgroupSave>
   </div>
 </template>
 
@@ -75,6 +75,7 @@
           tableData: [],
           total: 0,
           permissions: [],
+          treeClickId: [],
           // 表格数据
           page: 1,
           // 修改获取到的数据
@@ -134,9 +135,16 @@
           let id = data[index].id
           this.$http.get(this.$config.domain + 'authGroup/' + id, (response) => {
             this.saveData = response.data
+            this.$refs.authgroupSaveRef.setTree(this.saveData.permission_id)
             this.$refs.authgroupSaveRef.authgroupsave = true
-            // 子组件通过 $emit触发父组件的方法 increment
-            this.$root.Eventbus.$emit('increment', this.saveData.permission_id, event.target)
+          }, headers)
+        },
+        // 删除
+        deleteRow(index, data) {
+          let id = data[index].id
+          let headers = this.$lockr.get('headers')
+          this.$http.delete(this.$config.domain + 'authGroup/' + id, (response) => {
+            this.index()
           }, headers)
         }
       }

@@ -71,17 +71,11 @@
         default: Object
       }
     },
-    // 绑定事件
-    beforeCreate() {
-      this.$root.Eventbus.$on('increment', (id) => {
-        // 需要转成数组
-        let arr = id.split(',')
-        // 遍历树
-        this.$refs.tree.filter()
-        this.$refs.tree.setCheckedKeys(arr)
-      })
-    },
     methods: {
+      // 设置树的选中 父类调用
+      setTree(arr) {
+        this.$refs.tree.setCheckedKeys(arr.split(','))
+      },
       tree(value, data, node) {
         if (node.level === 2) {
           this.levelTwo[node.id] = node
