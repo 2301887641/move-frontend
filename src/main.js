@@ -18,6 +18,13 @@ import VueParticles from 'vue-particles'
 import Http from './config/http.js'
 // 加载vuex
 import Store from './vuex/store.js'
+
+// 加载ueditor
+import '../static/UE/ueditor.config.js'
+import '../static/UE/ueditor.all.min.js'
+import '../static/UE/lang/zh-cn/zh-cn.js'
+import '../static/UE/ueditor.parse.min.js'
+
 Vue.config.productionTip = false
 // vue上使用iview
 Vue.use(iView)

@@ -59,8 +59,8 @@
         :total="total" @current-change="currentPage">
       </el-pagination>
     </div>
-    <userAdd ref="userAddRef" :rules="rules"></userAdd>
-    <userSave ref="userSaveRef" :form="saveData" :rules="rules"></userSave>
+    <userAdd ref="userAddRef"></userAdd>
+    <userSave ref="userSaveRef" :form="saveData"></userSave>
   </div>
 </template>
 
@@ -89,23 +89,13 @@
             stime: 0,
             etime: 0,
           // 根据用户名查询
-            name: '',
-          // 角色列表
-            rules: []
+            name: ''
         }
       },
       created() {
           this.index()
-          this.getAuthList()
       },
       methods: {
-        // 获取角色列表
-        getAuthList() {
-          let headers = this.$lockr.get('headers')
-          this.$http.get(this.$config.domain + 'authGroupList', (response) => {
-            this.rules = response.data
-          }, headers)
-        },
         // 表格首页
         index() {
           let headers = this.$lockr.get('headers')
