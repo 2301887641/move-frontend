@@ -1,51 +1,92 @@
 <template>
-  <div class="components-container">
-    <div class="info">UE编辑器示例<br>需要使用编辑器时，调用UE公共组件即可。可设置填充内容defaultMsg，配置信息config(宽度和高度等)，可调用组件中获取内容的方法。支持页面内多次调用。</div>
-    <button @click="getUEContent()">获取内容</button>
-    <div class="editor-container">
-      <UE :defaultMsg=defaultMsg :config=config :id=ue1 ref="ue"></UE>
-
-      <!--<el-dialog title="收货地址" :visible.sync="dialogTableVisible">-->
-      <UE :defaultMsg=defaultMsg :config=config :id=ue2 ref="ue2"></UE>
-      <!--</el-dialog>-->
+  <div class="userauth-component">
+    <!--<topNav :oneInfo="menuInfo" :twoInfo="menuInfo2"></topNav>-->
+    <!--<topSearch></topSearch>-->
+    <topAdd :count="total"><div slot="self"></div></topAdd>
+    <div class="table">
+      <el-table ref="multipleTable" @selection-change="selectData" :data="tableData" border tooltip-effect="dark" style="width:100%">
+        <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column
+          prop="name"
+          label="用户"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="group_id"
+          label="角色"
+          show-overflow-tooltip>
+        </el-table-column>
+        <el-table-column
+          label="日期"
+          width="220">
+          <template scope="scope">
+            <el-icon name="time"></el-icon>
+            <span style="margin-left: 10px">{{ scope.row.created_at }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          fixed="right"
+          label="操作"
+          width="120">
+          <template scope="scope">
+            <el-popover
+              ref="popover"
+              placement="top"
+              width="160"
+              trigger="hover">
+              <div style="text-align: center; margin: 0">
+                <i class="fa fa-trash" aria-hidden="true"></i>&nbsp;<span>确定删除吗？</span>
+                <el-button type="primary" size="mini" @click.native.prevent="deleteRow(scope.$index, tableData)">确定</el-button>
+              </div>
+            </el-popover>
+            <el-button
+              @click.native.prevent="updateRow(scope.$index, tableData)"
+              type="text"
+              size="small">
+              编辑
+            </el-button>
+            <el-button v-popover:popover type="text"
+                       size="small">
+              移除
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
+    <div class="paginate">
+      <el-pagination
+        layout="prev, pager, next"
+        :total="total" @current-change="currentPage">
+      </el-pagination>
+    </div>
+    <!--<userAdd ref="userAddRef"></userAdd>-->
+    <!--<userSave ref="userSaveRef" :form="saveData"></userSave>-->
   </div>
 </template>
-<style>
-  .info{
-    border-radius: 10px;
-    line-height: 20px;
-    padding: 10px;
-    margin: 10px;
-    background-color: #ffffff;
-  }
-</style>
-<script>
-  import UE from '@/components/ueditor/ueditor.vue'
-  export default {
-    components: {UE},
+
+<script type="text/ecmascript-6">
+  export default{
     data() {
       return {
-        dialogTableVisible: true,
-        defaultMsg: '这里是UE测试',
-        config: {
-          initialFrameWidth: null,
-          initialFrameHeight: 350
-        },
-        ue1: 'ue1', // 不同编辑器必须不同的id
-        ue2: 'ue2'
+        total: 0,
+        currentPage: 1,
+        tableData: []
+
       }
     },
     methods: {
-      getUEContent() {
-        let content = this.$refs.ue.getUEContent() // 调用子组件方法
-        this.$notify({
-          title: '获取成功，可在控制台查看！',
-          message: content,
-          type: 'success'
+      index() {
+        this.$http.get(this.$config.domain + 'userauth/', (response) => {
+            this.tableData = response.data
         })
-        console.log(content)
+      },
+      // 修改数据
+      updateRow(index, data) {
+          console.log(index)
       }
     }
   }
 </script>
+<style lang="stylus" rel="stylesheet/stylus">
+
+</style>

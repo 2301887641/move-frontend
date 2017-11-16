@@ -165,12 +165,5 @@
 
 </script>
 <style lang="stylus" rel="stylesheet/stylus">
-    .user-component
-      .table
-        width:97%
-        margin:10px auto
-      .paginate
-        display:flex
-        justify-content:flex-end
-        margin-right:20px
+
 </style>
