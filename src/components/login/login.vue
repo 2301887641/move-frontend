@@ -47,7 +47,7 @@
             // 加载状态
             load: false,
             // 验证码地址
-            imageSrc: '',
+            imageSrc: this.$config.web + 'captcha',
             // 验证码验证后才可以提交表单
             canSubmit: false,
             // 表单对象
@@ -70,10 +70,6 @@
                 ]
             }
           }
-      },
-      created() {
-        //  验证码地址
-        this.imageSrc = this.$config.web + 'captcha'
       },
       methods: {
         //  刷新验证码
