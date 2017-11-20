@@ -65,20 +65,46 @@
 </template>
 
 <script type="text/ecmascript-6">
+  import topAdd from '@/components/add/add.vue'
+
   export default{
     data() {
       return {
         total: 0,
         currentPage: 1,
         tableData: []
-
       }
     },
+    components: {
+      topAdd
+    },
+    created() {
+      this.getUserList()
+    },
     methods: {
+      // 获取表格数据
       index() {
         this.$http.get(this.$config.domain + 'userauth/', (response) => {
             this.tableData = response.data
         })
+      },
+      // 点击选择删除
+      selectData(selection) {
+        this.deleteArr = []
+        for (let i in selection) {
+          this.deleteArr.push(selection[i].id)
+        }
+      },
+      // 添加
+      add() {
+        this.$refs.authgroupAddRef.authgroupadd = true
+      },
+      // 获取用户列表
+      getUserList() {
+        let headers = this.$lockr.get('headers')
+        this.$http.get(this.$config.domain + '/admin/userList', (response) => {
+          console.log(response)
+        }, headers)
       },
       // 修改数据
       updateRow(index, data) {
