@@ -82,7 +82,7 @@
         },
         // 验证码框输入内容时触发
         blur() {
-          if (this.formInline.captcha.length === 4) {
+          if (this.formInline.captcha.length === 3) {
              this.$http.unauthGet(this.$config.web + 'checkCaptcha/' + this.formInline.captcha, (response) => {
                if (response === -1) {
                   this.$message.error('网络错误!!')
