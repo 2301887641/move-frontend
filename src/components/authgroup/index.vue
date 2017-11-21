@@ -111,7 +111,7 @@
         // 获取权限树
         getPermissions() {
           let headers = this.$lockr.get('headers')
-          this.$http.get(this.$config.domain + 'getPermissions', (response) => {
+          this.$http.get(this.$config.domain + 'authRule/getPermissions', (response) => {
             this.permissions = response
           }, headers)
         },
@@ -124,7 +124,7 @@
             etime: this.etime,
             name: this.name
           }
-          this.$http.get(this.$config.domain + 'authGroup', (response) => {
+          this.$http.get(this.$config.domain + 'authRule/base', (response) => {
             this.tableData = response.data.data
             this.total = response.data.total
           }, headers)
@@ -133,7 +133,7 @@
         updateRow(index, data) {
           let headers = this.$lockr.get('headers')
           let id = data[index].id
-          this.$http.get(this.$config.domain + 'authGroup/' + id, (response) => {
+          this.$http.get(this.$config.domain + 'authRule/base' + id, (response) => {
             this.saveData = response.data
             this.$refs.authgroupSaveRef.setTree(this.saveData.permission_id)
             this.$refs.authgroupSaveRef.authgroupsave = true

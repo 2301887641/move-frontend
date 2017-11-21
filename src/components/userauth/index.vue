@@ -59,14 +59,14 @@
         :total="total" @current-change="currentPage">
       </el-pagination>
     </div>
-    <!--<userAdd ref="userAddRef"></userAdd>-->
+    <userauthAdd ref="userauthAddRef"></userauthAdd>
     <!--<userSave ref="userSaveRef" :form="saveData"></userSave>-->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import topAdd from '@/components/add/add.vue'
-
+  import userauthAdd from '@/components/userauth/add.vue'
   export default{
     data() {
       return {
@@ -76,7 +76,7 @@
       }
     },
     components: {
-      topAdd
+      topAdd, userauthAdd
     },
     created() {
       this.getUserList()
@@ -84,7 +84,7 @@
     methods: {
       // 获取表格数据
       index() {
-        this.$http.get(this.$config.domain + 'userauth/', (response) => {
+        this.$http.get(this.$config.domain + 'authGroupAccess/userauth', (response) => {
             this.tableData = response.data
         })
       },
@@ -97,12 +97,12 @@
       },
       // 添加
       add() {
-        this.$refs.authgroupAddRef.authgroupadd = true
+        this.$refs.userauthAddRef.userauthadd = true
       },
       // 获取用户列表
       getUserList() {
         let headers = this.$lockr.get('headers')
-        this.$http.get(this.$config.domain + '/admin/userList', (response) => {
+        this.$http.get(this.$config.domain + 'admin/userList', (response) => {
           console.log(response)
         }, headers)
       },

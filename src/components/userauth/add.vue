@@ -11,8 +11,8 @@
         <Form ref="formCustom" :model="form" :rules="ruleCustom" :label-width="80">
           <Form-item label="用户:" prop="parent_id">
             <Select v-model="form.parent_id" style="width:200px">
-              <Option :value="0">顶级权限</Option>
-              <Option v-for="item in authlist" :value="item.id" :key="item.name">{{"------".repeat(item.level)+item.name}}</Option>
+              <!--<Option :value="0">顶级权限</Option>-->
+              <!--<Option v-for="item in authlist" :value="item.id" :key="item.name">{{"&#45;&#45;&#45;&#45;&#45;&#45;".repeat(item.level)+item.name}}</Option>-->
             </Select>
           </Form-item>
         </Form>
@@ -30,6 +30,8 @@
         form: {
           uid: 0,
           group_id: 0
+        },
+        ruleCustom: {
         }
       }
     },

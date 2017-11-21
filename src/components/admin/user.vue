@@ -105,7 +105,7 @@
              etime: this.etime,
              name: this.name
           }
-          this.$http.get(this.$config.domain + 'admin', (response) => {
+          this.$http.get(this.$config.domain + 'admin/base', (response) => {
             this.tableData = response.data.data
             this.total = response.data.total
           }, headers)
@@ -126,7 +126,7 @@
         updateRow(index, data) {
           let headers = this.$lockr.get('headers')
           let id = data[index].id
-          this.$http.get(this.$config.domain + 'admin/' + id, (response) => {
+          this.$http.get(this.$config.domain + 'admin/base' + id, (response) => {
             this.saveData = response.data
             this.$refs.userSaveRef.usersave = true
           }, headers)
@@ -139,7 +139,7 @@
         deleteRow(index, data) {
           let id = data[index].id
           let headers = this.$lockr.get('headers')
-          this.$http.delete(this.$config.domain + 'admin/' + id, (response) => {
+          this.$http.delete(this.$config.domain + 'admin/base' + id, (response) => {
               this.index()
           }, headers)
         },
@@ -153,7 +153,7 @@
         // 删除全部
         deleteAll() {
           let headers = this.$lockr.get('headers')
-          this.$http.delete(this.$config.domain + 'admin/' + this.deleteArr, (response) => {
+          this.$http.delete(this.$config.domain + 'admin/base' + this.deleteArr, (response) => {
             this.index()
           }, headers)
         }

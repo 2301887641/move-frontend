@@ -110,7 +110,7 @@
         updateRow(index, data) {
           let headers = this.$lockr.get('headers')
           let id = data[index].id
-          this.$http.get(this.$config.domain + 'authRule/' + id + '/edit', (response) => {
+          this.$http.get(this.$config.domain + 'authGroup/base' + id + '/edit', (response) => {
             this.saveData = response.data
             this.$refs.authruleSaveRef.authrulesave = true
             this.getList()

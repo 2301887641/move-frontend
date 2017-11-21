@@ -75,7 +75,7 @@
         this.$refs.formCustom.validate((valid) => {
           if (valid) {
             let headers = this.$lockr.get('headers')
-            this.$http.post(this.$config.domain + 'admin', this.form, (response) => {
+            this.$http.post(this.$config.domain + 'admin/base', this.form, (response) => {
               this.useradd = false
               this.$refs.formCustom.resetFields()
               this.$parent.index()

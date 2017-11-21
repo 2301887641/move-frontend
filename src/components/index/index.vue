@@ -1,7 +1,7 @@
 <template>
   <div>
     <header id="header">
-      <div class="left">
+      <div class="left" v-loading.fullscreen.lock="fullscreenLoading">
         <i class="fa fa-windows fa-3x" aria-hidden="true"></i>
         <span class="text-logo">Admin</span><span class="text-slogan">管理后台</span>
       </div>
@@ -22,10 +22,6 @@
     <div id="right">
         <router-view></router-view>
     </div>
-    <el-button
-      type="primary"
-      v-loading.fullscreen.lock="fullscreenLoading">
-    </el-button>
   </div>
 </template>
 

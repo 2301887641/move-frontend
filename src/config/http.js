@@ -99,7 +99,7 @@ Http.callbackFunc = (response, callback) => {
 // promise 格式同步输出
 Http.syncMenu = (headers) => {
   return new Promise(function (resolve, reject) {
-    Axios.get(Config.domain + 'menu', headers).then((response) => {
+    Axios.get(Config.domain + 'authRule/menu', headers).then((response) => {
       resolve(response.data)
     }).catch((error) => {
       if (error) {
