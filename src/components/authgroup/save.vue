@@ -116,7 +116,7 @@
             this.form.permission_id = Object.values(this.permissions_id)
             let headers = this.$lockr.get('headers')
             let id = this.form.id
-            this.$http.put(this.$config.domain + 'authGroup/' + id, this.form, (response) => {
+            this.$http.put(this.$config.domain + 'authGroup/base/' + id, this.form, (response) => {
               this.authgroupsave = false
               // 清空树
               this.$refs.tree.setCheckedKeys([])

@@ -124,7 +124,7 @@
             etime: this.etime,
             name: this.name
           }
-          this.$http.get(this.$config.domain + 'authRule/base', (response) => {
+          this.$http.get(this.$config.domain + 'authGroup/base', (response) => {
             this.tableData = response.data.data
             this.total = response.data.total
           }, headers)

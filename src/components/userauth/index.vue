@@ -59,7 +59,7 @@
         :total="total" @current-change="currentPage">
       </el-pagination>
     </div>
-    <userauthAdd ref="userauthAddRef"></userauthAdd>
+    <userauthAdd ref="userauthAddRef" :userList="userList" :authGroup="authGroup"></userauthAdd>
     <!--<userSave ref="userSaveRef" :form="saveData"></userSave>-->
   </div>
 </template>
@@ -72,7 +72,9 @@
       return {
         total: 0,
         currentPage: 1,
-        tableData: []
+        tableData: [],
+        userList: [],
+        authGroup: []
       }
     },
     components: {
@@ -84,8 +86,9 @@
     methods: {
       // 获取表格数据
       index() {
-        this.$http.get(this.$config.domain + 'authGroupAccess/userauth', (response) => {
-            this.tableData = response.data
+        this.$http.get(this.$config.domain + 'authGroupAccess/base', (response) => {
+            this.tableData = response.data.data
+            this.total = response.data.total
         })
       },
       // 点击选择删除
@@ -97,13 +100,22 @@
       },
       // 添加
       add() {
+        this.getUserList()
+        this.getAuthGroup()
         this.$refs.userauthAddRef.userauthadd = true
       },
       // 获取用户列表
       getUserList() {
         let headers = this.$lockr.get('headers')
         this.$http.get(this.$config.domain + 'admin/userList', (response) => {
-          console.log(response)
+          this.userList = response.data
+        }, headers)
+      },
+      // 获取角色列表
+      getAuthGroup() {
+        let headers = this.$lockr.get('headers')
+        this.$http.get(this.$config.domain + 'authGroup/base/create', (response) => {
+          this.authGroup = response.data
         }, headers)
       },
       // 修改数据

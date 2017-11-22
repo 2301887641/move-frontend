@@ -9,10 +9,14 @@
         <i class="fa fa-product-hunt" aria-hidden="true"></i> <span>添加用户组认证</span>
       </p>
         <Form ref="formCustom" :model="form" :rules="ruleCustom" :label-width="80">
-          <Form-item label="用户:" prop="parent_id">
-            <Select v-model="form.parent_id" style="width:200px">
-              <!--<Option :value="0">顶级权限</Option>-->
-              <!--<Option v-for="item in authlist" :value="item.id" :key="item.name">{{"&#45;&#45;&#45;&#45;&#45;&#45;".repeat(item.level)+item.name}}</Option>-->
+          <Form-item label="用户:" prop="uid">
+            <Select v-model="form.uid" style="width:200px">
+              <Option v-for="item in userList" :value="item.id" :key="item.text">{{item.text}}</Option>
+            </Select>
+          </Form-item>
+          <Form-item label="角色:" prop="group_id">
+            <Select v-model="form.group_id" style="width:200px">
+              <Option v-for="item in authGroup" :value="item.id" :key="item.text">{{item.text}}</Option>
             </Select>
           </Form-item>
         </Form>
@@ -37,6 +41,14 @@
     },
     methods: {
 
+    },
+    props: {
+      userList: {
+        default: Array
+      },
+      authGroup: {
+        default: Array
+      }
     }
   }
 </script>
