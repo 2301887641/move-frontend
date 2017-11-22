@@ -94,7 +94,7 @@
               let headers = this.$lockr.get('headers')
               let id = this.form.id
               let data = this.form
-              this.$http.put(this.$config.domain + 'authRule/' + id, data, (response) => {
+              this.$http.put(this.$config.domain + 'authRule/base/' + id, data, (response) => {
                 this.authrulesave = false
                 this.$parent.index()
               }, headers)

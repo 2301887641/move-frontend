@@ -94,7 +94,7 @@
           this.$refs.formCustom.validate((valid) => {
             if (valid) {
               let headers = this.$lockr.get('headers')
-              this.$http.post(this.$config.domain + 'authRule', this.form, (response) => {
+              this.$http.post(this.$config.domain + 'authRule/base', this.form, (response) => {
                 this.authruleadd = false
                 this.$refs.formCustom.resetFields()
                 this.$parent.index()

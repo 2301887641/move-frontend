@@ -62,7 +62,7 @@
               email: this.form.email,
               password: this.pwd.password
             }
-            this.$http.put(this.$config.domain + 'admin/base' + id, data, (response) => {
+            this.$http.put(this.$config.domain + 'admin/base/' + id, data, (response) => {
               this.resetPwd()
               this.$parent.index()
             }, headers)

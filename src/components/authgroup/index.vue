@@ -133,7 +133,7 @@
         updateRow(index, data) {
           let headers = this.$lockr.get('headers')
           let id = data[index].id
-          this.$http.get(this.$config.domain + 'authRule/base' + id, (response) => {
+          this.$http.get(this.$config.domain + 'authGroup/base/' + id, (response) => {
             this.saveData = response.data
             this.$refs.authgroupSaveRef.setTree(this.saveData.permission_id)
             this.$refs.authgroupSaveRef.authgroupsave = true
@@ -143,7 +143,7 @@
         deleteRow(index, data) {
           let id = data[index].id
           let headers = this.$lockr.get('headers')
-          this.$http.delete(this.$config.domain + 'authGroup/' + id, (response) => {
+          this.$http.delete(this.$config.domain + 'authGroup/base/' + id, (response) => {
             this.index()
           }, headers)
         }

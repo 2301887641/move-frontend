@@ -112,7 +112,7 @@
             })
             this.form.permission_id = Object.values(this.permissions_id)
             let headers = this.$lockr.get('headers')
-            this.$http.post(this.$config.domain + 'authGroup', this.form, (response) => {
+            this.$http.post(this.$config.domain + 'authGroup/base/', this.form, (response) => {
               this.authgroupadd = false
               // 清空树
               this.$refs.tree.setCheckedKeys([])
