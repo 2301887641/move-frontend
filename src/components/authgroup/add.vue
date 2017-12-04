@@ -111,7 +111,6 @@
               }
             })
             this.form.permission_id = Object.values(this.permissions_id)
-            let headers = this.$lockr.get('headers')
             this.$http.post(this.$config.domain + 'authGroup/base', this.form, (response) => {
               this.authgroupadd = false
               // 清空树
@@ -119,7 +118,7 @@
               // 清空form
               this.$refs.formCustom.resetFields()
               this.$parent.index()
-            }, headers)
+            })
             this.permissions_id = {}
           }
         })

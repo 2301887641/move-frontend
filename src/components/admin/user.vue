@@ -98,8 +98,7 @@
       methods: {
         // 表格首页
         index() {
-          let headers = this.$lockr.get('headers')
-          headers.params = {
+          let params = {
              page: this.page,
              stime: this.stime,
              etime: this.etime,
@@ -108,7 +107,7 @@
           this.$http.get(this.$config.domain + 'admin/base', (response) => {
             this.tableData = response.data.data
             this.total = response.data.total
-          }, headers)
+          }, params)
         },
         // 分页点击
         currentPage(page) {
@@ -124,12 +123,11 @@
         },
         // 根据id查找并传给修改组件
         updateRow(index, data) {
-          let headers = this.$lockr.get('headers')
           let id = data[index].id
           this.$http.get(this.$config.domain + 'admin/base/' + id, (response) => {
             this.saveData = response.data
             this.$refs.userSaveRef.usersave = true
-          }, headers)
+          })
         },
         // 弹出添加用户窗口
         add() {
@@ -138,10 +136,9 @@
         // 删除操作
         deleteRow(index, data) {
           let id = data[index].id
-          let headers = this.$lockr.get('headers')
           this.$http.delete(this.$config.domain + 'admin/base/' + id, (response) => {
               this.index()
-          }, headers)
+          })
         },
         // 点击选择删除
         selectData(selection) {
@@ -152,10 +149,9 @@
         },
         // 删除全部
         deleteAll() {
-          let headers = this.$lockr.get('headers')
           this.$http.delete(this.$config.domain + 'admin/base/' + this.deleteArr, (response) => {
             this.index()
-          }, headers)
+          })
         }
       },
       components: {

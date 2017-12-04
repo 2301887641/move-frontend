@@ -101,10 +101,9 @@
          // 删除操作
         deleteRow(index, data) {
           let id = data[index].id
-          let headers = this.$lockr.get('headers')
           this.$http.delete(this.$config.domain + 'authRule/base/' + id, (response) => {
             this.index()
-          }, headers)
+          })
         },
          // 格式化表格数据
         formatterStatus(row, column, cellValue) {
@@ -119,13 +118,12 @@
         },
         // 根据id查找并传给修改组件
         updateRow(index, data) {
-          let headers = this.$lockr.get('headers')
           let id = data[index].id
           this.$http.get(this.$config.domain + 'authRule/base/' + id + '/edit', (response) => {
             this.saveData = response.data
             this.$refs.authruleSaveRef.authrulesave = true
             this.getList()
-          }, headers)
+          })
         },
         // 点击选择删除
         selectData(selection) {
@@ -141,18 +139,16 @@
         },
         // 获取上级权限列表
         getList() {
-          let header = this.$lockr.get('headers')
           this.$http.get(this.$config.domain + 'authRule/base/create', (response) => {
             this.authlist = response.data
-          }, header)
+          })
         },
         // 表格列表
         index() {
-          let header = this.$lockr.get('headers')
           this.$http.get(this.$config.domain + 'authRule/base', (response) => {
             this.tableData = response.data.data
             this.total = response.data.total
-          }, header)
+          })
         }
       }
     }

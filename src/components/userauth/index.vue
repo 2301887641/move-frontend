@@ -106,17 +106,15 @@
       },
       // 获取用户列表
       getUserList() {
-        let headers = this.$lockr.get('headers')
         this.$http.get(this.$config.domain + 'admin/userList', (response) => {
           this.userList = response.data
-        }, headers)
+        })
       },
       // 获取角色列表
       getAuthGroup() {
-        let headers = this.$lockr.get('headers')
         this.$http.get(this.$config.domain + 'authGroup/base/create', (response) => {
           this.authGroup = response.data
-        }, headers)
+        })
       },
       // 修改数据
       updateRow(index, data) {

@@ -114,7 +114,6 @@
               }
             })
             this.form.permission_id = Object.values(this.permissions_id)
-            let headers = this.$lockr.get('headers')
             let id = this.form.id
             this.$http.put(this.$config.domain + 'authGroup/base/' + id, this.form, (response) => {
               this.authgroupsave = false
@@ -123,7 +122,7 @@
               // 清空form
               this.$refs.formCustom.resetFields()
               this.$parent.index()
-            }, headers)
+            })
             this.permissions_id = {}
           }
         })

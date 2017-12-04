@@ -55,7 +55,6 @@
       saveOk() {
         this.$refs.formCustom.validate((valid) => {
           if (valid && this.checkPwd()) {
-            let headers = this.$lockr.get('headers')
             let id = this.form.id
             let data = {
               name: this.form.name,
@@ -65,7 +64,7 @@
             this.$http.put(this.$config.domain + 'admin/base/' + id, data, (response) => {
               this.resetPwd()
               this.$parent.index()
-            }, headers)
+            })
           }
         })
       },

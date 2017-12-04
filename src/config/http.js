@@ -9,6 +9,8 @@ import Axios from 'axios'
 // import route from '../router'
 // element组件
 import Ele from 'element-ui'
+// 本地存储localstory
+import Lockr from 'lockr'
 
 Axios.defaults.baseURL = Config.login
 Axios.defaults.timeout = 1000 * 15
@@ -18,8 +20,13 @@ let Http = {}
 // 配置文件信息 外部使用
 Http.conf = Config
 // ajax get请求  get带参数和header头 axios.get(`http://***/api/v1/public/homepage`, {params: params,headers:{"sn":"201021622343"}})
-Http.get = (url, callback, config = '') => {
-  Axios.get(url, config).then((response) => {
+Http.get = (url, callback, params = '') => {
+  let header = Lockr.get('headers')
+  // get请求可以传递其他参数 必须是object类型
+  if (params !== '') {
+     header.params = params
+  }
+  Axios.get(url, header).then((response) => {
     // 正确接收到响应后我们的所有数据都在data里面
     Http.callbackFunc(response, callback)
   }).catch((error) => {
@@ -31,6 +38,7 @@ Http.get = (url, callback, config = '') => {
 
 // ajax post请求
 Http.post = (url, data, callback, config = '') => {
+  config = (config === '') ? Lockr.get('headers') : ''
   Axios.post(url, data, config).then((response) => {
     Http.callbackFunc(response, callback)
   }).catch((error) => {
@@ -42,6 +50,7 @@ Http.post = (url, data, callback, config = '') => {
 
 // ajax put请求
 Http.put = (url, data, callback, config = '') => {
+  config = (config === '') ? Lockr.get('headers') : ''
   Axios.put(url, data, config).then((response) => {
     Http.callbackFunc(response, callback)
   }).catch((error) => {
@@ -53,6 +62,7 @@ Http.put = (url, data, callback, config = '') => {
 
 // ajax delete请求
 Http.delete = (url, callback, config = '') => {
+  config = (config === '') ? Lockr.get('headers') : ''
   Axios.delete(url, config).then((response) => {
     // 正确接收到响应后我们的所有数据都在data里面
     Http.callbackFunc(response, callback)
