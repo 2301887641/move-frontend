@@ -6,7 +6,7 @@ const Base = {
     web: 'http://www.api.com/',
     login: 'http://www.api.com/oauth/token',
     client_id: 2,
-    client_secret: 'IJrM4Bi5p7bM6V0A6kmD4nOviXudabAlj5Sue4mR',
+    client_secret: 'JWj8Vr871SvB99NMvRcTshVCDLvNVhYac1tAp2d4',
     grant_type: 'password'
 }
 export default Base

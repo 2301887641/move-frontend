@@ -8,7 +8,7 @@ import Axios from 'axios'
 // 路由跳转
 // import route from '../router'
 // element组件
-import Ele from 'element-ui'
+import IVIEW from 'iview'
 // 本地存储localstory
 import Lockr from 'lockr'
 
@@ -55,7 +55,7 @@ Http.put = (url, data, callback, config = '') => {
     Http.callbackFunc(response, callback)
   }).catch((error) => {
     if (error) {
-      this.errorMessage()
+      // this.errorMessage()
     }
   })
 }
@@ -99,10 +99,17 @@ Http.unauthPost = (url, data, callback, config = '') => {
 
 // 回调
 Http.callbackFunc = (response, callback) => {
+  // 页面发生错误
   if (response.status === 500) {
-    response.msg && Ele.Message.error(response.msg)
+    response.msg && IVIEW.Notice.error(response.msg)
+  // 页面正常
   } else if (response.status === 200) {
-    !callback(response.data) && response.msg && Ele.Message.success(response.msg)
+    // 返回的数据可能有500错误 需要提示给前台展示
+    if (response.data.status === 500) {
+      IVIEW.Notice.warning({title: '错误提示', desc: response.data.msg})
+    } else {
+      !callback(response.data) && response.msg && IVIEW.Notice.success({title: '成功!', desc: response.data.msg})
+    }
   }
 }
 
@@ -114,7 +121,7 @@ Http.syncMenu = (headers) => {
     }).catch((error) => {
       if (error) {
         if (error.response.data && error.response.data.error) {
-          (error.response.data.error.indexOf('Unauthenticated') !== false) && Ele.Message.error('用户认证失败,请重新登录!!!')
+          (error.response.data.error.indexOf('Unauthenticated') !== false) && IVIEW.Notice.warning('用户认证失败,请重新登录!!!')
         }
       }
     })
@@ -122,7 +129,12 @@ Http.syncMenu = (headers) => {
 }
 
 // 错误路由跳转
-// this.errorMessage = () => {
+// Http.errorMessage = () => {
+//   Ele.notify.error('登录超时,请重新登录')
+// }
+
+// 错误路由跳转
+// Http.errorMessage = () => {
 //   route.replace('/')
 //   Ele.Message.error('登录超时,请重新登录')
 // }

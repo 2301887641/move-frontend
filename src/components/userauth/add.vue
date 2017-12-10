@@ -15,7 +15,7 @@
             </Select>
           </Form-item>
           <Form-item label="角色:" prop="group_id">
-            <Select v-model="form.group_id" multiple style="width:200px" placeholder="请选择角色组合">
+            <Select v-model="form.group_id" style="width:200px" placeholder="请选择角色组合">
               <Option v-for="item in authGroup" :value="item.id" :key="item.text">{{item.text}}</Option>
             </Select>
           </Form-item>
@@ -38,14 +38,14 @@
         closable: false,
         form: {
           uid: '',
-          group_id: []
+          group_id: ''
         },
         ruleCustom: {
           uid: [
             {type: 'number', required: true, message: '请选择用户', triggle: 'change'}
           ],
           group_id: [
-            {type: 'array', required: true, message: '请选择角色', triggle: 'change'}
+            {type: 'number', required: true, message: '请选择角色', triggle: 'change'}
           ]
         }
       }
@@ -54,10 +54,19 @@
         remove() {
           this.userauthadd = false
         },
+        // 清空数据
+        clear() {
+          this.form.uid = ''
+          this.form.group_id = ''
+        },
         addOk() {
           this.$refs.formCustom.validate((valid) => {
             if (valid) {
-                console.log(34343)
+              this.$http.post(this.$config.domain + 'authGroupAccess/base', this.form, (response) => {
+                this.userauthadd = false
+                this.clear()
+                this.$parent.index()
+              })
             }
           })
       }

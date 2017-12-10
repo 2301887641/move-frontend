@@ -7,12 +7,12 @@
       <el-table ref="multipleTable" @selection-change="selectData" :data="tableData" border tooltip-effect="dark" style="width:100%">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column
-          prop="name"
+          prop="uname"
           label="用户"
         >
         </el-table-column>
         <el-table-column
-          prop="group_id"
+          prop="gname"
           label="角色"
           show-overflow-tooltip>
         </el-table-column>
@@ -81,6 +81,7 @@
       topAdd, userauthAdd
     },
     created() {
+      this.index()
       this.getUserList()
     },
     methods: {
@@ -123,6 +124,3 @@
     }
   }
 </script>
-<style lang="stylus" rel="stylesheet/stylus">
-
-</style>
